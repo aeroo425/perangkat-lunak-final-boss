@@ -13,11 +13,13 @@ use App\Http\Controllers\LoginController;
 |
 */
 
+
+
+
 Route::get('/', function () {
-    return view('welcome');
-
-
+    return redirect('/login');
 });
+
 
 
 
