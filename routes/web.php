@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+
+use App\Http\Controllers\AuthController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,6 +21,8 @@ use App\Http\Controllers\LoginController;
 Route::get('/', function () {
     return redirect('/login');
 });
+
+
 
 
 
