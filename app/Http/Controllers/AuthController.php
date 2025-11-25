@@ -23,19 +23,36 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'name' => 'required|min:3',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:8'
+            'name'  => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+                'confirmed',           // password == password_confirmation
+                'regex:/[A-Z]/',       // huruf besar
+                'regex:/[a-z]/',       // huruf kecil
+                'regex:/[0-9]/',       // angka
+                'regex:/[@$!%*#?&]/',  // simbol
+            ],
+        ], [
+            'password.confirmed' => 'Password dan konfirmasi harus sama.',
+            'password.regex' => 'Password harus mengandung huruf besar, huruf kecil, angka, dan simbol.',
         ]);
 
-        // Simpan user baru
-        User::create([
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'password' => Hash::make($request->password)
-        ]);
+        try {
+            User::create([
+                'name'     => $request->name,
+                'email'    => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
 
-        return redirect('/login')->with('success', 'Akun berhasil dibuat, silakan login.');
+            return redirect()->route('login')
+                ->with('success', 'Akun berhasil dibuat. Silakan login.');
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Registrasi gagal, silakan coba lagi.');
+        }
     }
 
     // 👉 Proses login

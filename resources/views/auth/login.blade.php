@@ -8,8 +8,7 @@
                 {{ __('Login Akun') }}
             </div>
 
-
-
+            <div class="card-body">
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
 
@@ -20,7 +19,7 @@
                                name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 
                         @error('email')
-                            <span class="invalid-feedback">
+                            <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror
@@ -33,7 +32,7 @@
                                name="password" required autocomplete="current-password">
 
                         @error('password')
-                            <span class="invalid-feedback">
+                            <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror
@@ -58,15 +57,12 @@
                     <button type="submit" class="btn btn-primary w-100">
                         {{ __('Login') }}
                     </button>
-
                 </form>
 
                 <p class="text-center mt-3">
                     Belum punya akun?
                     <a href="{{ route('register') }}" class="fw-bold">Register</a>
                 </p>
-
-
             </div>
         </div>
     </div>

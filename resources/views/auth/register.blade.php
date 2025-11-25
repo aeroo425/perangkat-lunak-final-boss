@@ -15,16 +15,27 @@
                 <div class="card-header text-center bg-primary text-white">
                     <h4>Buat Akun</h4>
                 </div>
+
                 <div class="card-body">
 
+                    {{-- Notif berhasil --}}
                     @if (session('success'))
                         <div class="alert alert-success" role="alert">
                             {{ session('success') }}
                         </div>
                     @endif
+
+                    {{-- Notif error umum --}}
+                    @if (session('error'))
+                        <div class="alert alert-danger" role="alert">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
 
+                        {{-- Nama Lengkap --}}
                         <div class="mb-3">
                             <label for="name">Nama Lengkap</label>
                             <input
@@ -37,12 +48,13 @@
                                 placeholder="Masukkan nama lengkap"
                             >
                             @error('name')
-                                <span class="invalid-feedback" role="alert">
+                                <span class="invalid-feedback">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
 
+                        {{-- Email --}}
                         <div class="mb-3">
                             <label for="email">Email</label>
                             <input
@@ -55,12 +67,13 @@
                                 placeholder="Masukkan email"
                             >
                             @error('email')
-                                <span class="invalid-feedback" role="alert">
+                                <span class="invalid-feedback">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
 
+                        {{-- Password --}}
                         <div class="mb-3">
                             <label for="password">Password</label>
                             <input
@@ -72,12 +85,13 @@
                                 placeholder="Masukkan password"
                             >
                             @error('password')
-                                <span class="invalid-feedback" role="alert">
+                                <span class="invalid-feedback">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
 
+                        {{-- Konfirmasi Password --}}
                         <div class="mb-3">
                             <label for="password-confirm">Konfirmasi Password</label>
                             <input
@@ -88,14 +102,20 @@
                                 required
                                 placeholder="Ulangi password"
                             >
-                            </div>
+                        </div>
 
-                        <button type="submit" class="btn btn-primary w-100">Daftar Sekarang</button>
+                        {{-- Tombol Daftar --}}
+                        <button type="submit" class="btn btn-primary w-100">
+                            Daftar Sekarang
+                        </button>
+
                     </form>
-
                 </div>
+
                 <div class="card-footer text-center">
-                    <small>Sudah punya akun? <a href="{{ route('login') }}">Login</a></small>
+                    <small>Sudah punya akun?
+                        <a href="{{ route('login') }}">Login</a>
+                    </small>
                 </div>
             </div>
         </div>
