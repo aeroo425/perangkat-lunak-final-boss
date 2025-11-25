@@ -7,6 +7,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AuthController; // dari branch temanmu jika dipakai
+use App\Http\Controllers\OTPController;   // dari branch temanmu jika dipakai
 
 // Default redirect
 Route::get('/', function () {
