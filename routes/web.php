@@ -3,9 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\LoginController;
 
-use App\Http\Controllers\AuthController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,7 +15,6 @@ use App\Http\Controllers\AuthController;
 |
 */
 use App\Http\Controllers\AuthController;
-
 use App\Http\Controllers\OTPController;
 use Illuminate\Support\Facades\Auth;
 
@@ -61,7 +58,15 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 
+// FORGOT PASSWORD
+Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])
+    ->name('password.request');
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])
+    ->name('password.email');
 
+Route::get('/forgot-password', [ForgotPasswordController::class, 'form'])->name('lupa.password');
+Route::post('/forgot-password', [ForgotPasswordController::class, 'cekEmail'])->name('lupa.password.cek');
 
-// ... (routes lain)
+Route::get('password/forgot', [ForgotPasswordController::class, 'form']);
+Route::post('password/forgot', [ForgotPasswordController::class, 'cekEmail']);
 
