@@ -1,8 +1,11 @@
 <?php
 
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OTPController;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ForgotPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,59 +17,22 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\OTPController;
-use Illuminate\Support\Facades\Auth;
-
-
-
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login']);
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-
-
-
-
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-
-
-
 
 Route::get('/', function () {
     return redirect('/login');
 });
 
-
-
-
-
-
-Route::get('/login', [LoginController::class, 'index'])->name('login');
-Route::post('/login', [LoginController::class, 'authenticate'])->name('login.check');
-
-Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware('auth');
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
-
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 
 // FORGOT PASSWORD
-Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])
-    ->name('password.request');
-Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])
-    ->name('password.email');
-
 Route::get('/forgot-password', [ForgotPasswordController::class, 'form'])->name('lupa.password');
 Route::post('/forgot-password', [ForgotPasswordController::class, 'cekEmail'])->name('lupa.password.cek');
 
-Route::get('password/forgot', [ForgotPasswordController::class, 'form']);
-Route::post('password/forgot', [ForgotPasswordController::class, 'cekEmail']);
-
+// ... (routes lain)
