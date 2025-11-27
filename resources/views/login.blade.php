@@ -22,6 +22,7 @@
                             <input type="password" name="password" class="form-control" required>
                         </div>
 
+
                         <button type="submit" class="btn btn-primary w-100">Login</button>
                     </form>
 
@@ -64,6 +65,11 @@
                             <label>Password</label>
                             <input type="password" name="password" class="form-control" required>
                         </div>
+
+                        <div class="d-flex justify-content-end mb-3">
+    <a href="{{ route('password.request') }}">Lupa Password?</a>
+</div>
+
 
                         <div class="mb-3 form-check">
                             <input type="checkbox" name="remember" class="form-check-input" id="remember">

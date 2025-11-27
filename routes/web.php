@@ -2,11 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-
 use App\Http\Controllers\OTPController;
 use Illuminate\Support\Facades\Auth;
-
-
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ForgotPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,12 +18,7 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-
-
-
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
 
 Route::get('/', function () {
     return redirect('/login');
@@ -32,11 +26,13 @@ Route::get('/', function () {
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
-
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 
-
+// FORGOT PASSWORD
+Route::get('/forgot-password', [ForgotPasswordController::class, 'form'])->name('lupa.password');
+Route::post('/forgot-password', [ForgotPasswordController::class, 'cekEmail'])->name('lupa.password.cek');
 
 // ... (routes lain)

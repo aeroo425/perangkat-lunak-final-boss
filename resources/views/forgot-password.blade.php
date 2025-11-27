@@ -1,47 +1,38 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Lupa Password</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
+@extends('layouts.app')
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-4">
+@section('content')
+<div class="container mt-5" style="max-width: 500px">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white text-center">
+            <h5>Lupa Password</h5>
+        </div>
 
-            <div class="card shadow-sm">
-                <div class="card-header text-center"><strong>Lupa Password</strong></div>
-                <div class="card-body">
+        <div class="card-body">
 
-                    @if (session('status'))
-                        <div class="alert alert-success">{{ session('status') }}</div>
-                    @endif
-
-                    <form method="POST" action="{{ route('password.email') }}">
-                        @csrf
-
-                        <div class="mb-3">
-                            <label>Masukkan email untuk reset password</label>
-                            <input type="email" name="email" class="form-control" required>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary w-100">
-                            Kirim Link Reset
-                        </button>
-
-                        <div class="text-center mt-3">
-                            <a href="{{ route('login') }}">Kembali ke Login</a>
-                        </div>
-
-                    </form>
-
+            @if (session('password'))
+                <div class="alert alert-success">
+                    Password Anda: <b>{{ session('password') }}</b>
                 </div>
-            </div>
+            @endif
 
+            @error('email')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
+
+            <form action="{{ route('lupa.password.cek') }}" method="POST">
+                @csrf
+                <div class="mb-3">
+                    <label>Email Terdaftar</label>
+                    <input type="email" name="email" class="form-control" required value="{{ old('email') }}">
+                </div>
+
+                <button class="btn btn-primary w-100">Cek Password</button>
+
+                <div class="text-center mt-3">
+                    <a href="{{ route('login') }}">Kembali ke Login</a>
+                </div>
+            </form>
         </div>
     </div>
 </div>
-
-</body>
-</html>
+@endsection
