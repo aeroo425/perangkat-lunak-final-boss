@@ -1,152 +1,165 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register | Lost & Found</title>
 
-    <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-
     <style>
-
         body {
             margin: 0;
             padding: 0;
-            background: #d9d9d9;
+            background: #F9F1DD;
             font-family: Arial, sans-serif;
         }
 
-        /* Layout full */
-        .register-wrapper {
+        .page-wrapper {
             display: flex;
             height: 100vh;
-            overflow: hidden;
+            padding: 40px;
+            gap: 40px;
         }
 
-        /* KIRI (FORM) */
+        /* LEFT */
         .left-side {
             flex: 1;
-            padding: 60px 80px;
-        }
-
-        .title {
-            font-size: 40px;
-            font-weight: 800;
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .form-control {
-            border-radius: 25px;
-            padding: 12px 20px;
-        }
-
-        .btn-submit {
-            background: #7da3bd;
-            border: none;
-            border-radius: 30px;
-            padding: 12px;
-            font-size: 20px;
-            font-weight: bold;
-        }
-
-        /* KANAN (GAMBAR) */
-        .right-side {
-            flex: 1;
-            background: #FFF5E3;
             display: flex;
             justify-content: center;
             align-items: center;
-            border-top-left-radius: 200px;
-            border-bottom-left-radius: 200px;
-            box-shadow: -5px 0 30px rgba(0,0,0,0.1);
+            flex-direction: column;
+            text-align: center;
         }
 
-        .right-side img {
-            width: 80%;
+        .left-side img {
+            width: 120%;
             max-width: 500px;
         }
 
+        /* RIGHT */
+        .right-side {
+            flex: 0.45;
+            background: #88A9C4;
+            border-radius: 30px;
+            padding: 70px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .top-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 40px; /* jarak dari REGISTER title */
+        }
+
+        .top-logo .brand {
+            font-size: 20px;
+            font-weight: 800;
+            margin-top: 5px;
+            color: black;
+        }
+
+        .logo-mini {
+            width: 60px;
+            display: block;
+        }
+
+        .title {
+            font-size: 34px;
+            font-weight: 800;
+            text-align: center;
+            color: #FFF7E6;
+            margin-bottom: 35px;
+            line-height: 1.3;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px;
+            border-radius: 30px;
+            border: none;
+            background: #DFDFDF;
+            font-size: 16px;
+            margin-bottom: 18px;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: #F39B53;
+            border: none;
+            border-radius: 30px;
+            font-size: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .register {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 14px;
+        }
+
+        .register a {
+            font-weight: bold;
+            color: black;
+            text-decoration: none;
+        }
+
         @media (max-width: 900px) {
-            .register-wrapper {
+            .page-wrapper {
                 flex-direction: column;
+                padding: 20px;
             }
-            .right-side {
+            .left-side {
                 display: none;
             }
         }
-
     </style>
 </head>
+
 <body>
 
-<div class="register-wrapper">
+<div class="page-wrapper">
 
-    <!-- ============================
-         KIRI - FORM REGISTER
-    ============================ -->
+    <!-- LEFT -->
     <div class="left-side">
+        <img src="{{ asset('Frame 1.png') }}" alt="">
+    </div>
 
-        <div class="title">
-            <img src="{{ asset('images/user-icon.png') }}" alt="" width="60">
-            <br>
-            Daftar Akun
+    <!-- RIGHT -->
+    <div class="right-side">
+
+        <div class="top-logo">
+            <img src="2.png" class="logo-mini">
+            <h3 class="brand">LOST AND FOUND</h3>
         </div>
 
-        {{-- Notif berhasil --}}
-        @if (session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
+        <div class="title">CREATE<br>ACCOUNT</div>
 
-        {{-- Notif error --}}
-        @if (session('error'))
-            <div class="alert alert-danger">{{ session('error') }}</div>
-        @endif
-
-        <form method="POST" action="{{ route('register') }}">
+        <form action="{{ route('register') }}" method="POST">
             @csrf
 
-            {{-- Nama --}}
-            <label class="fw-bold mb-1">Nama Lengkap</label>
-            <input type="text" name="name" class="form-control mb-3"
-                placeholder="Masukkan nama lengkap" required>
+            <input type="text" name="name" class="form-control" placeholder="Full Name" required>
 
-            {{-- Email --}}
-            <label class="fw-bold mb-1">Email</label>
-            <input type="email" name="email" class="form-control mb-3"
-                placeholder="Masukkan email" required>
+            <input type="email" name="email" class="form-control" placeholder="Email Address" required>
 
-            {{-- Password --}}
-            <label class="fw-bold mb-1">Password</label>
-            <input type="password" name="password"
-                class="form-control mb-3"
-                placeholder="Masukkan password" required>
+            <input type="password" name="password" class="form-control" placeholder="Password" required>
 
-            {{-- Konfirmasi --}}
-            <label class="fw-bold mb-1">Konfirmasi Password</label>
-            <input type="password" name="password_confirmation"
-                class="form-control mb-4"
-                placeholder="Ulangi password" required>
+            <input type="password" name="password_confirmation" class="form-control" placeholder="Confirm Password" required>
 
-            <button type="submit" class="btn-submit w-100">
-                Daftar Sekarang
-            </button>
+            <button class="btn-login">Register</button>
+
+            <div class="register">
+                Already have an account?
+                <a href="{{ route('login') }}">Log In</a>
+            </div>
+
         </form>
 
-        <div class="text-center mt-3">
-            Sudah punya akun?
-            <a href="{{ route('login') }}" class="fw-bold">Login</a>
-        </div>
     </div>
-
-    <!-- ============================
-         KANAN - GAMBAR
-    ============================ -->
-    <div class="right-side">
-        <img src="{{ asset('ChatGPT Image Nov 29, 2025, 10_07_06 AM 2.png') }}" alt="Register Image">
-    </div>
-
 </div>
 
 </body>
