@@ -4,122 +4,149 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register | Lost & Found</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+    <style>
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: #d9d9d9;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Layout full */
+        .register-wrapper {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* KIRI (FORM) */
+        .left-side {
+            flex: 1;
+            padding: 60px 80px;
+        }
+
+        .title {
+            font-size: 40px;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .form-control {
+            border-radius: 25px;
+            padding: 12px 20px;
+        }
+
+        .btn-submit {
+            background: #7da3bd;
+            border: none;
+            border-radius: 30px;
+            padding: 12px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        /* KANAN (GAMBAR) */
+        .right-side {
+            flex: 1;
+            background: #FFF5E3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-top-left-radius: 200px;
+            border-bottom-left-radius: 200px;
+            box-shadow: -5px 0 30px rgba(0,0,0,0.1);
+        }
+
+        .right-side img {
+            width: 80%;
+            max-width: 500px;
+        }
+
+        @media (max-width: 900px) {
+            .register-wrapper {
+                flex-direction: column;
+            }
+            .right-side {
+                display: none;
+            }
+        }
+
+    </style>
 </head>
-<body class="bg-light">
+<body>
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-5">
-            <div class="card shadow">
-                <div class="card-header text-center bg-primary text-white">
-                    <h4>Buat Akun</h4>
-                </div>
+<div class="register-wrapper">
 
-                <div class="card-body">
+    <!-- ============================
+         KIRI - FORM REGISTER
+    ============================ -->
+    <div class="left-side">
 
-                    {{-- Notif berhasil --}}
-                    @if (session('success'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('success') }}
-                        </div>
-                    @endif
+        <div class="title">
+            <img src="{{ asset('images/user-icon.png') }}" alt="" width="60">
+            <br>
+            Daftar Akun
+        </div>
 
-                    {{-- Notif error umum --}}
-                    @if (session('error'))
-                        <div class="alert alert-danger" role="alert">
-                            {{ session('error') }}
-                        </div>
-                    @endif
+        {{-- Notif berhasil --}}
+        @if (session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
 
-                    <form method="POST" action="{{ route('register') }}">
-                        @csrf
+        {{-- Notif error --}}
+        @if (session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
 
-                        {{-- Nama Lengkap --}}
-                        <div class="mb-3">
-                            <label for="name">Nama Lengkap</label>
-                            <input
-                                type="text"
-                                name="name"
-                                id="name"
-                                class="form-control @error('name') is-invalid @enderror"
-                                value="{{ old('name') }}"
-                                required
-                                placeholder="Masukkan nama lengkap"
-                            >
-                            @error('name')
-                                <span class="invalid-feedback">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
+        <form method="POST" action="{{ route('register') }}">
+            @csrf
 
-                        {{-- Email --}}
-                        <div class="mb-3">
-                            <label for="email">Email</label>
-                            <input
-                                type="email"
-                                name="email"
-                                id="email"
-                                class="form-control @error('email') is-invalid @enderror"
-                                value="{{ old('email') }}"
-                                required
-                                placeholder="Masukkan email"
-                            >
-                            @error('email')
-                                <span class="invalid-feedback">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
+            {{-- Nama --}}
+            <label class="fw-bold mb-1">Nama Lengkap</label>
+            <input type="text" name="name" class="form-control mb-3"
+                placeholder="Masukkan nama lengkap" required>
 
-                        {{-- Password --}}
-                        <div class="mb-3">
-                            <label for="password">Password</label>
-                            <input
-                                type="password"
-                                name="password"
-                                id="password"
-                                class="form-control @error('password') is-invalid @enderror"
-                                required
-                                placeholder="Masukkan password"
-                            >
-                            @error('password')
-                                <span class="invalid-feedback">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
+            {{-- Email --}}
+            <label class="fw-bold mb-1">Email</label>
+            <input type="email" name="email" class="form-control mb-3"
+                placeholder="Masukkan email" required>
 
-                        {{-- Konfirmasi Password --}}
-                        <div class="mb-3">
-                            <label for="password-confirm">Konfirmasi Password</label>
-                            <input
-                                type="password"
-                                name="password_confirmation"
-                                id="password-confirm"
-                                class="form-control"
-                                required
-                                placeholder="Ulangi password"
-                            >
-                        </div>
+            {{-- Password --}}
+            <label class="fw-bold mb-1">Password</label>
+            <input type="password" name="password"
+                class="form-control mb-3"
+                placeholder="Masukkan password" required>
 
-                        {{-- Tombol Daftar --}}
-                        <button type="submit" class="btn btn-primary w-100">
-                            Daftar Sekarang
-                        </button>
+            {{-- Konfirmasi --}}
+            <label class="fw-bold mb-1">Konfirmasi Password</label>
+            <input type="password" name="password_confirmation"
+                class="form-control mb-4"
+                placeholder="Ulangi password" required>
 
-                    </form>
-                </div>
+            <button type="submit" class="btn-submit w-100">
+                Daftar Sekarang
+            </button>
+        </form>
 
-                <div class="card-footer text-center">
-                    <small>Sudah punya akun?
-                        <a href="{{ route('login') }}">Login</a>
-                    </small>
-                </div>
-            </div>
+        <div class="text-center mt-3">
+            Sudah punya akun?
+            <a href="{{ route('login') }}" class="fw-bold">Login</a>
         </div>
     </div>
+
+    <!-- ============================
+         KANAN - GAMBAR
+    ============================ -->
+    <div class="right-side">
+        <img src="{{ asset('ChatGPT Image Nov 29, 2025, 10_07_06 AM 2.png') }}" alt="Register Image">
+    </div>
+
 </div>
 
 </body>
