@@ -2,149 +2,177 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Login Akun</title>
+    <title>Login | Lost & Found</title>
 
     <style>
         body {
             margin: 0;
             padding: 0;
-            background: #f0f0f0;
+            background: #F9F1DD; /* cream soft */
             font-family: Arial, sans-serif;
         }
 
-        .container {
+        /* Wrapper utama */
+        .page-wrapper {
             display: flex;
-            height: 100vh; /* full screen */
-            width: 100%;
+            height: 100vh;
+            padding: 40px;
+            gap: 40px;
         }
 
-        .left {
+        /* LEFT SIDE */
+        .left-side {
             flex: 1;
-            background: #FAF0DE;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 40px;
+            flex-direction: column;
+            text-align: center;
         }
 
-        .left img {
-            width: 90%;
-            height: 90%;
-            object-fit: contain; /* biar tidak ketarik */
+        .left-side img {
+            width: 120%;
+            max-width: 500px;
         }
 
-        .right {
-            flex: 1;
-            background: #e3e3e3;
+        /* RIGHT SIDE – LOGIN BOX */
+        .right-side {
+            flex: 0.45;
+            background: #88A9C4;
+            border-radius: 30px;
+            padding: 30px 60px 60px 60px; /* dinaikkan dari 70 -> 30 */
+            padding-top: 110px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            padding: 60px;
-            border-radius: 0 50px 50px 0;
+            justify-content: flex-start; /* biar nempel atas */
         }
 
-        .header {
-            background: #8aaac4;
-            padding: 20px;
-            border-radius: 20px;
-            font-size: 30px;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .input-group {
+        /* LOGO + BRAND */
+        .top-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: top;
             margin-bottom: 20px;
+            margin-top: -20px; /* naikkan lagi */
         }
 
-        .input-group label {
-            font-size: 16px;
-            font-weight: bold;
+        .top-logo img {
+            width: 70px;
         }
 
-        .input-group input {
+        .top-logo .brand {
+            font-size: 20px;
+            font-weight: 800;
+            margin-top: 5px;
+            color: black;
+        }
+
+        .title {
+            font-size: 38px;
+            font-weight: 800;
+            text-align: center;
+            color: #FFF7E6;
+            margin-bottom: 35px;
+            line-height: 1.2;
+        }
+
+        /* Input Style */
+        .form-control {
             width: 100%;
             padding: 14px;
-            margin-top: 8px;
-            border-radius: 20px;
+            border-radius: 30px;
             border: none;
-            background: #ffffff;
+            background: #DFDFDF;
             font-size: 16px;
+            margin-bottom: 20px;
         }
 
-        .helper {
+        .forgot {
             text-align: right;
             margin-top: -10px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             font-size: 14px;
         }
 
-        .helper a {
+        .forgot a {
             text-decoration: none;
-            color: #333;
+            color: black;
+            font-weight: bold;
         }
 
-        .login-btn {
+        .btn-login {
             width: 100%;
             padding: 14px;
-            background: #8aaac4;
-            font-size: 22px;
-            font-weight: bold;
+            background: #F39B53;
             border: none;
             border-radius: 30px;
+            font-size: 20px;
             cursor: pointer;
+            font-weight: bold;
             margin-top: 10px;
         }
 
         .register {
             text-align: center;
-            margin-top: 15px;
+            margin-top: 18px;
             font-size: 14px;
         }
 
         .register a {
             font-weight: bold;
-            text-decoration: none;
             color: black;
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .page-wrapper {
+                flex-direction: column;
+                padding: 20px;
+            }
+            .left-side {
+                display: none;
+            }
         }
     </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="page-wrapper">
 
-    <!-- LEFT PANEL -->
-    <div class="left">
-        <img src="{{ asset('ChatGPT Image Nov 27, 2025, 10_00_30 AM.png') }}" alt="Lost and Found Image">
+    <!-- LEFT SIDE -->
+    <div class="left-side">
+        <img src="{{ asset('Frame 1.png') }}" alt="Lost and Found">
     </div>
 
-    <!-- RIGHT PANEL -->
-    <div class="right">
+    <!-- RIGHT SIDE -->
+    <div class="right-side">
 
-        <div class="header">login akun</div>
+        <div class="top-logo">
+            <img src="{{ asset('2.png') }}" alt="Logo">
+            <div class="brand">LOST AND FOUND</div>
+        </div>
+
+        <div class="title">LOG IN<br>ACCOUNT</div>
 
         <form action="{{ route('login') }}" method="POST">
             @csrf
 
-            <div class="input-group">
-                <label>Email address</label>
-                <input type="email" name="email" required>
+            <input type="email" name="email" class="form-control" placeholder="Email Address" required>
+
+            <input type="password" name="password" class="form-control" placeholder="Password" required>
+
+            <div class="forgot">
+                <a href="{{ route('password.request') }}">Forget Password</a>
             </div>
 
-            <div class="input-group">
-                <label>Password</label>
-                <input type="password" name="password" required>
-            </div>
-
-            <div class="helper">
-                <a href="{{ route('password.request') }}">Lupa password?</a>
-            </div>
-
-            <button class="login-btn">Login</button>
+            <button class="btn-login">Log In</button>
 
             <div class="register">
-                Belum punya akun? <a href="{{ route('register') }}">Register</a>
+                Don’t have an account?
+                <a href="{{ route('register') }}">Register</a>
             </div>
 
         </form>
