@@ -32,7 +32,22 @@ Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('regi
 Route::post('/register', [AuthController::class, 'register']);
 
 // FORGOT PASSWORD
-Route::get('/forgot-password', [ForgotPasswordController::class, 'form'])->name('lupa.password');
-Route::post('/forgot-password', [ForgotPasswordController::class, 'cekEmail'])->name('lupa.password.cek');
+// 1. Halaman form lupa password
+Route::get('/forgot-password', [ForgotPasswordController::class, 'form'])
+    ->name('password.request');
 
-// ... (routes lain)
+// 2. Cek email — kalau ada → redirect ke reset password manual
+Route::post('/forgot-password-check', [ForgotPasswordController::class, 'checkEmail'])
+    ->name('password.check');
+
+// 3. Halaman reset password manual (tanpa email asli)
+Route::get('/reset-password-manual/{email}', [ForgotPasswordController::class, 'showManualReset'])
+    ->name('password.manual.reset');
+
+// 4. Submit password baru
+Route::post('/reset-password-manual', [ForgotPasswordController::class, 'manualReset'])
+    ->name('password.manual.update');
+
+Route::get('/forgot-password', [ForgotPasswordController::class, 'form'])
+    ->name('password.request');
+

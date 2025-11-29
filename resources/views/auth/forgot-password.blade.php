@@ -18,10 +18,12 @@
     <div class="container">
         <h1>Lupa Password</h1>
 
+        {{-- STATUS SUCCESS --}}
         @if (session('status'))
             <div class="alert">{{ session('status') }}</div>
         @endif
 
+        {{-- ERROR VALIDATION --}}
         @if ($errors->any())
             <div class="alert">
                 <strong>Terdapat kesalahan:</strong>
@@ -33,13 +35,14 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('lupa.password.cek') }}">
+        {{-- FORM CEK EMAIL --}}
+        <form method="POST" action="{{ route('password.check') }}">
             @csrf
 
             <label for="email">Email</label>
             <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus>
 
-            <button type="submit">Kirim tautan reset password</button>
+            <button type="submit">Lanjutkan</button>
         </form>
 
         <p style="margin-top:12px;">
