@@ -1,105 +1,167 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-[#87A9C4] pb-10">
+
+{{-- BOOTSTRAP 5 --}}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<style>
+    body {
+        background-color: #87A9C4;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .navbar-custom {
+        background: #F6EEDB;
+        padding: 15px 40px;
+    }
+
+    .menu-link {
+        font-weight: 600;
+        margin-left: 25px;
+        text-decoration: none;
+        color: black;
+    }
+
+    .menu-link:hover {
+        color: #DE8651;
+    }
+
+    .banner-box {
+        background: #FFF2DB;
+        height: 160px;
+        border: 4px solid #DE8651;
+        border-radius: 12px;
+    }
+
+    .filter-btn {
+        background: #DE8651;
+        border: none;
+        padding: 10px 25px;
+        border-radius: 20px;
+        font-weight: bold;
+        color: white;
+    }
+
+    .item-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+
+    .detail-btn {
+        background: #DE8651;
+        border: none;
+        padding: 8px 20px;
+        color: white;
+        border-radius: 12px;
+        font-weight: bold;
+    }
+</style>
+
+<div class="min-vh-100 pb-5">
 
     {{-- NAVBAR --}}
-    <nav class="bg-[#F6EEDB] shadow-md px-8 py-4 flex justify-between items-center">
-        <div class="flex items-center gap-3">
-            <img src="/icon.png" class="w-10">
-            <h1 class="font-bold text-lg">LOST AND FOUND</h1>
-        </div>
+    <nav class="navbar navbar-expand-lg navbar-custom shadow-sm">
+        <div class="container-fluid">
+            <div class="d-flex align-items-center gap-2">
+                <img src="/icon.png" width="45">
+                <h4 class="fw-bold">LOST AND FOUND</h4>
+            </div>
 
-        <ul class="flex gap-8 font-semibold">
-            <li><a href="#" class="hover:text-orange-500">Home</a></li>
-            <li><a href="#" class="hover:text-orange-500">Lost Item</a></li>
-            <li><a href="#" class="hover:text-orange-500">Found Item</a></li>
-            <li><a href="#" class="hover:text-orange-500">My Report</a></li>
-        </ul>
+            <div class="d-flex align-items-center">
+                <a href="#" class="menu-link">Home</a>
+                <a href="#" class="menu-link">Lost Item</a>
+                <a href="#" class="menu-link">Found Item</a>
+                <a href="#" class="menu-link">My Report</a>
+            </div>
 
-        <div>
-            <div class="w-10 h-10 bg-orange-300 rounded-full flex items-center justify-center">
-                <i class="fa-solid fa-user text-white"></i>
+            <div>
+                <div class="rounded-circle bg-warning d-flex justify-content-center align-items-center"
+                     style="width:45px; height:45px;">
+                    <i class="fa-solid fa-user text-white"></i>
+                </div>
             </div>
         </div>
     </nav>
 
-    {{-- BANNER (3 box) --}}
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 px-8 mt-8">
-        @for ($i = 0; $i < 3; $i++)
-            <div class="bg-[#FFF2DB] h-40 rounded-lg border-4 border-orange-400"></div>
-        @endfor
+    {{-- 3 Banner Box --}}
+    <div class="container mt-4">
+        <div class="row g-4">
+            @for ($i = 0; $i < 3; $i++)
+                <div class="col-md-4">
+                    <div class="banner-box"></div>
+                </div>
+            @endfor
+        </div>
     </div>
 
     {{-- CONTENT --}}
-    <div class="bg-[#9FB6C7] mx-8 mt-10 p-6 rounded-lg shadow-lg">
-        <h2 class="font-bold text-2xl mb-4">Daftar Barang</h2>
+    <div class="container mt-5 p-4 rounded shadow" style="background:#9FB6C7;">
+        <h3 class="fw-bold mb-4">Daftar Barang</h3>
 
-        {{-- SEARCH & FILTER --}}
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-            <div class="relative w-64">
-                <input type="text" placeholder="Cari Barang..." class="w-full px-4 py-2 rounded-full shadow focus:outline-none">
-                <i class="fa-solid fa-magnifying-glass absolute right-4 top-3 text-gray-500"></i>
+        {{-- SEARCH + FILTER --}}
+        <div class="d-flex flex-wrap align-items-center gap-3 mb-4">
+            <div class="position-relative">
+                <input type="text" class="form-control rounded-pill ps-4" placeholder="Cari Barang..." style="width:220px;">
+                <i class="fa-solid fa-magnifying-glass position-absolute"
+                   style="top:10px; right:15px; color:gray;"></i>
             </div>
 
-            <button class="bg-orange-300 px-4 py-2 rounded-full shadow font-semibold hover:bg-orange-400">
-                Barang Hilang
-            </button>
-
-            <button class="bg-orange-300 px-4 py-2 rounded-full shadow font-semibold hover:bg-orange-400">
-                Barang Ditemukan
-            </button>
+            <button class="filter-btn">Barang Hilang</button>
+            <button class="filter-btn">Barang Ditemukan</button>
         </div>
 
         {{-- LIST ITEM --}}
-        <div class="space-y-5">
-            {{-- ITEM 1 --}}
-            <div class="bg-white rounded-lg shadow flex p-4 gap-4 items-center">
-                <div class="w-24 h-24 bg-gray-300 rounded"></div>
+        <div class="d-flex flex-column gap-4">
 
-                <div class="flex-1">
-                    <h3 class="font-bold">STNK Vario 150</h3>
-                    <p>Kategori: Barang Berharga</p>
-                    <p>Lokasi Hilang: SWK Telkom</p>
-                    <p>Tanggal: 25 Nov 2025</p>
+            {{-- ITEM 1 --}}
+            <div class="item-card d-flex gap-3 align-items-center">
+                <div class="bg-secondary rounded" style="width:95px; height:95px;"></div>
+
+                <div class="flex-grow-1">
+                    <h5 class="fw-bold">STNK Vario 150</h5>
+                    <p class="mb-1">Kategori: Barang Berharga</p>
+                    <p class="mb-1">Lokasi Hilang: SWK Telkom</p>
+                    <p class="mb-1">Tanggal: 25 Nov 2025</p>
                 </div>
 
-                <div class="text-right">
-                    <span class="flex items-center gap-2 text-green-600 font-bold">
-                        <div class="w-5 h-5 border-2 border-green-600 rounded-full"></div>
+                <div class="text-end">
+                    <div class="d-flex align-items-center justify-content-end gap-2 fw-bold text-success">
+                        <div class="rounded-circle" style="width:18px; height:18px; border:2px solid green;"></div>
                         DITEMUKAN
-                    </span>
+                    </div>
 
-                    <button class="mt-3 bg-orange-300 px-4 py-2 rounded-full shadow hover:bg-orange-400">
-                        Lihat Detail
-                    </button>
+                    <button class="detail-btn mt-2">Lihat Detail</button>
                 </div>
             </div>
 
             {{-- ITEM 2 --}}
-            <div class="bg-white rounded-lg shadow flex p-4 gap-4 items-center">
-                <div class="w-24 h-24 bg-gray-300 rounded"></div>
+            <div class="item-card d-flex gap-3 align-items-center">
+                <div class="bg-secondary rounded" style="width:95px; height:95px;"></div>
 
-                <div class="flex-1">
-                    <h3 class="font-bold">Tumblr Tuku</h3>
-                    <p>Kategori: Barang Berharga</p>
-                    <p>Lokasi Hilang: Gerbong Kereta</p>
-                    <p>Tanggal: 27 Nov 2025</p>
+                <div class="flex-grow-1">
+                    <h5 class="fw-bold">Tumblr Tuku</h5>
+                    <p class="mb-1">Kategori: Barang Berharga</p>
+                    <p class="mb-1">Lokasi Hilang: Gerbong Kereta</p>
+                    <p class="mb-1">Tanggal: 27 Nov 2025</p>
                 </div>
 
-                <div class="text-right">
-                    <span class="flex items-center gap-2 text-red-600 font-bold">
-                        <div class="w-5 h-5 border-2 border-red-600 rounded-full"></div>
+                <div class="text-end">
+                    <div class="d-flex align-items-center justify-content-end gap-2 fw-bold text-danger">
+                        <div class="rounded-circle" style="width:18px; height:18px; border:2px solid red;"></div>
                         HILANG
-                    </span>
+                    </div>
 
-                    <button class="mt-3 bg-orange-300 px-4 py-2 rounded-full shadow hover:bg-orange-400">
-                        Lihat Detail
-                    </button>
+                    <button class="detail-btn mt-2">Lihat Detail</button>
                 </div>
             </div>
 
         </div>
     </div>
+
 </div>
+
 @endsection

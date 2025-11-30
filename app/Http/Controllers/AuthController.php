@@ -16,6 +16,10 @@ class AuthController extends Controller
 
     // 👉 Tampilkan form login
     public function showLoginForm() {
+        // Jika sudah login, jangan kembali ke login
+        if (Auth::check()) {
+            return redirect()->route('dashboard');
+        }
         return view('auth.login');
     }
 
@@ -29,11 +33,11 @@ class AuthController extends Controller
                 'required',
                 'string',
                 'min:8',
-                'confirmed',           // password == password_confirmation
-                'regex:/[A-Z]/',       // huruf besar
-                'regex:/[a-z]/',       // huruf kecil
-                'regex:/[0-9]/',       // angka
-                'regex:/[@$!%*#?&]/',  // simbol
+                'confirmed',
+                'regex:/[A-Z]/',
+                'regex:/[a-z]/',
+                'regex:/[0-9]/',
+                'regex:/[@$!%*#?&]/',
             ],
         ], [
             'password.confirmed' => 'Password dan konfirmasi harus sama.',
@@ -64,7 +68,7 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($request->only('email', 'password'))) {
-            return redirect('/home'); // ubah sesuai halaman setelah login
+            return redirect()->route('dashboard'); // SUDAH DIPERBAIKI
         }
 
         return back()->withErrors([
@@ -76,6 +80,6 @@ class AuthController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect('/login');
+        return redirect()->route('login');
     }
 }
