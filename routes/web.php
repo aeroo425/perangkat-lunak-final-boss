@@ -2,14 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-
 use App\Http\Controllers\OTPController;
-use Illuminate\Support\Facades\Auth;
-
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\HomeController;
-
 use App\Http\Controllers\ForgotPasswordController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LostFoundController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,14 +14,16 @@ use App\Http\Controllers\HomeController;
 |--------------------------------------------------------------------------
 */
 
-// Default → login
+// Redirect root → login
 Route::get('/', function () {
     return redirect('/login');
 });
 
-// =========================
-// AUTH
-// =========================
+/*
+|--------------------------------------------------------------------------
+| Authentication
+|--------------------------------------------------------------------------
+*/
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -32,15 +31,11 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-Route::get('/dashboard', [HomeController::class, 'index'])
-    ->middleware(['auth'])
-    ->name('dashboard');
-
-// =========================
-// FORGOT PASSWORD
-// =========================
+/*
+|--------------------------------------------------------------------------
+| Forgot Password
+|--------------------------------------------------------------------------
+*/
 Route::get('/forgot-password', [ForgotPasswordController::class, 'form'])
     ->name('password.request');
 
@@ -53,16 +48,48 @@ Route::get('/reset-password-manual/{email}', [ForgotPasswordController::class, '
 Route::post('/reset-password-manual', [ForgotPasswordController::class, 'manualReset'])
     ->name('password.manual.update');
 
-// =========================
-// DASHBOARD
-// =========================
+/*
+|--------------------------------------------------------------------------
+| Protected Routes (auth required)
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth'])->group(function () {
 
-// Main dashboard
-Route::get('/dashboard', [HomeController::class, 'index'])
-    ->middleware(['auth'])
-    ->name('dashboard');
+    // HOME / DASHBOARD
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/dashboard', [LostFoundController::class, 'dashboard'])->name('dashboard');
 
-// Redirect lama /home → /dashboard
-Route::get('/home', function () {
-    return redirect('/dashboard');
+    /*
+    |--------------------------------------------------------------------------
+    | LOST ITEMS (Barang Hilang)
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/lost-items', [LostFoundController::class, 'lostItems'])->name('lost-items.index');
+    Route::get('/lost-items/create', [LostFoundController::class, 'createLost'])->name('lost-items.create');
+
+    /*
+    |--------------------------------------------------------------------------
+    | FOUND ITEMS (Barang Ditemukan)
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/found-items', [LostFoundController::class, 'foundItems'])->name('found-items.index');
+    Route::get('/found-items/create', [LostFoundController::class, 'createFound'])->name('found-items.create');
+
+    /*
+    |--------------------------------------------------------------------------
+    | MY REPORTS (Laporan Saya)
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/my-reports', [LostFoundController::class, 'myReports'])->name('my-reports.index');
+
+    /*
+    |--------------------------------------------------------------------------
+    | CRUD LOST & FOUND
+    |--------------------------------------------------------------------------
+    */
+    Route::post('/lost-found', [LostFoundController::class, 'store'])->name('lost-found.store');
+    Route::get('/lost-found/{id}', [LostFoundController::class, 'show'])->name('lost-found.show');
+    Route::get('/lost-found/{id}/edit', [LostFoundController::class, 'edit'])->name('lost-found.edit');
+    Route::put('/lost-found/{id}', [LostFoundController::class, 'update'])->name('lost-found.update');
+    Route::delete('/lost-found/{id}', [LostFoundController::class, 'destroy'])->name('lost-found.destroy');
 });
