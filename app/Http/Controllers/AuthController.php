@@ -19,7 +19,7 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    // 👉 Simpan data register ke database
+    // 👉 Simpan data register
     public function register(Request $request)
     {
         $request->validate([
@@ -29,15 +29,15 @@ class AuthController extends Controller
                 'required',
                 'string',
                 'min:8',
-                'confirmed',           // password == password_confirmation
-                'regex:/[A-Z]/',       // huruf besar
-                'regex:/[a-z]/',       // huruf kecil
-                'regex:/[0-9]/',       // angka
-                'regex:/[@$!%*#?&]/',  // simbol
+                'confirmed',
+                'regex:/[A-Z]/',
+                'regex:/[a-z]/',
+                'regex:/[0-9]/',
+                'regex:/[@$!%*#?&]/',
             ],
         ], [
             'password.confirmed' => 'Password dan konfirmasi harus sama.',
-            'password.regex' => 'Password harus mengandung huruf besar, huruf kecil, angka, dan simbol.',
+            'password.regex'     => 'Password harus mengandung huruf besar, huruf kecil, angka, dan simbol.',
         ]);
 
         try {
@@ -49,7 +49,6 @@ class AuthController extends Controller
 
             return redirect()->route('login')
                 ->with('success', 'Akun berhasil dibuat. Silakan login.');
-
         } catch (\Exception $e) {
             return back()->with('error', 'Registrasi gagal, silakan coba lagi.');
         }
@@ -64,18 +63,28 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($request->only('email', 'password'))) {
-            return redirect('/home'); // ubah sesuai halaman setelah login
+
+            // Regenerasi session untuk keamanan
+            $request->session()->regenerate();
+
+            // Redirect ke dashboard (sesuai pilihan kamu tadi → opsi A)
+            return redirect()->intended('/dashboard');
         }
 
         return back()->withErrors([
-            'email' => 'Email atau password salah',
+            'email' => 'Email atau password salah.',
         ]);
     }
 
     // 👉 Proses logout
-    public function logout()
+    public function logout(Request $request)
     {
         Auth::logout();
+
+        // Hapus session untuk keamanan
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
         return redirect('/login');
     }
 }
