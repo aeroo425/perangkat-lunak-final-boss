@@ -8,32 +8,26 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\HomeController;
 
+use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
 */
 
-
-
-
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-
+// Default → login
 Route::get('/', function () {
     return redirect('/login');
 });
 
+// =========================
+// AUTH
+// =========================
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
-
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
@@ -44,6 +38,31 @@ Route::get('/dashboard', [HomeController::class, 'index'])
     ->middleware(['auth'])
     ->name('dashboard');
 
+// =========================
+// FORGOT PASSWORD
+// =========================
+Route::get('/forgot-password', [ForgotPasswordController::class, 'form'])
+    ->name('password.request');
 
+Route::post('/forgot-password-check', [ForgotPasswordController::class, 'checkEmail'])
+    ->name('password.check');
 
-// ... (routes lain)
+Route::get('/reset-password-manual/{email}', [ForgotPasswordController::class, 'showManualReset'])
+    ->name('password.manual.reset');
+
+Route::post('/reset-password-manual', [ForgotPasswordController::class, 'manualReset'])
+    ->name('password.manual.update');
+
+// =========================
+// DASHBOARD
+// =========================
+
+// Main dashboard
+Route::get('/dashboard', [HomeController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('dashboard');
+
+// Redirect lama /home → /dashboard
+Route::get('/home', function () {
+    return redirect('/dashboard');
+});

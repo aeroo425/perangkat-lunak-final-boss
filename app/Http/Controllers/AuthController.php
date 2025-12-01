@@ -16,6 +16,10 @@ class AuthController extends Controller
 
     // 👉 Tampilkan form login
     public function showLoginForm() {
+        // Jika sudah login, jangan kembali ke login
+        if (Auth::check()) {
+            return redirect()->route('dashboard');
+        }
         return view('auth.login');
     }
 
@@ -69,6 +73,7 @@ class AuthController extends Controller
 
             // Redirect ke dashboard (sesuai pilihan kamu tadi → opsi A)
             return redirect()->intended('/dashboard');
+            return redirect()->route('dashboard'); // SUDAH DIPERBAIKI
         }
 
         return back()->withErrors([
@@ -86,5 +91,6 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/login');
+        return redirect()->route('login');
     }
 }
