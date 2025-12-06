@@ -156,6 +156,35 @@
         </div>
 
         <div class="title">LOG IN<br>ACCOUNT</div>
+        {{-- NOTIFIKASI SUCCESS & ERROR --}}
+@if (session('success'))
+    <div style="
+        background:#d4edda;
+        color:#155724;
+        padding:12px 18px;
+        border-radius:20px;
+        margin-bottom:20px;
+        font-weight:bold;
+        text-align:center;
+    ">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if (session('error'))
+    <div style="
+        background:#f8d7da;
+        color:#721c24;
+        padding:12px 18px;
+        border-radius:20px;
+        margin-bottom:20px;
+        font-weight:bold;
+        text-align:center;
+    ">
+        {{ session('error') }}
+    </div>
+@endif
+
 
         <form action="{{ route('login') }}" method="POST">
             @csrf
