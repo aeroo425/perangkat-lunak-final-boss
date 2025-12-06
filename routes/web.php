@@ -7,6 +7,8 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\LostFoundController;
+use App\Models\LostFound;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -92,4 +94,34 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/lost-found/{id}/edit', [LostFoundController::class, 'edit'])->name('lost-found.edit');
     Route::put('/lost-found/{id}', [LostFoundController::class, 'update'])->name('lost-found.update');
     Route::delete('/lost-found/{id}', [LostFoundController::class, 'destroy'])->name('lost-found.destroy');
+
+Route::get('/dashboard', function (Request $request) {
+
+    $query = LostFound::query();
+
+    // Search
+    if ($request->search) {
+        $query->where('nama_barang', 'like', '%' . $request->search . '%');
+    }
+
+    // Filter status
+    if ($request->status != null && $request->status !== '') {
+        $query->where('status', $request->status);
+    }
+
+    $items = $query->get();
+
+    return view('dashboard', compact('items'));
+
+})->middleware(['auth'])->name('dashboard');
+
+
+
+
+
+
 });
+
+
+
+
