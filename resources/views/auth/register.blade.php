@@ -156,6 +156,16 @@
                 Already have an account?
                 <a href="{{ route('login') }}">Log In</a>
             </div>
+            @if ($errors->any())
+    <div style="background:#ffcccc; padding:15px; border-radius:10px; margin-bottom:20px;">
+        <ul style="margin:0; padding-left:15px; color:#b30000; font-weight:bold;">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
 
         </form>
 
