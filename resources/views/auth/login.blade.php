@@ -12,6 +12,17 @@
             font-family: Arial, sans-serif;
         }
 
+        /* Error Message */
+        .alert-error {
+            background: #ff4d4d;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+
         /* Wrapper utama */
         .page-wrapper {
             display: flex;
@@ -40,11 +51,11 @@
             flex: 0.45;
             background: #88A9C4;
             border-radius: 30px;
-            padding: 30px 60px 60px 60px; /* dinaikkan dari 70 -> 30 */
+            padding: 30px 60px 60px 60px;
             padding-top: 110px;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start; /* biar nempel atas */
+            justify-content: flex-start;
         }
 
         /* LOGO + BRAND */
@@ -54,7 +65,7 @@
             align-items: center;
             text-align: top;
             margin-bottom: 20px;
-            margin-top: -20px; /* naikkan lagi */
+            margin-top: -20px;
         }
 
         .top-logo img {
@@ -156,6 +167,13 @@
         </div>
 
         <div class="title">LOG IN<br>ACCOUNT</div>
+
+        {{-- ERROR MESSAGE LOGIN --}}
+        @if ($errors->any())
+            <div class="alert-error">
+                {{ $errors->first() }}
+            </div>
+        @endif
 
         <form action="{{ route('login') }}" method="POST">
             @csrf
