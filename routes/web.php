@@ -9,7 +9,7 @@ use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\LostFoundController;
 use App\Models\LostFound;
 use Illuminate\Http\Request;
-
+use App\Http\Controllers\ItemController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -116,6 +116,8 @@ Route::get('/dashboard', function (Request $request) {
 })->middleware(['auth'])->name('dashboard');
 
 
+Route::get('/items', [ItemController::class, 'index'])->name('items.index');
+Route::get('/items/{id}', [ItemController::class, 'show'])->name('items.show');
 
 
 
