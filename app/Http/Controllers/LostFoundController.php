@@ -13,7 +13,9 @@ class LostFoundController extends Controller
         $this->middleware('auth');
     }
 
-    // Dashboard - menampilkan semua items
+    // ===========================
+    // DASHBOARD
+    // ===========================
     public function dashboard(Request $request)
     {
         $query = LostFound::with('user')->latest();
@@ -38,13 +40,16 @@ class LostFoundController extends Controller
         return view('dashboard', compact('items'));
     }
 
-    // Lost Items - barang hilang
+    // ===========================
+    // LOST ITEMS
+    // ===========================
     public function lostItems(Request $request)
     {
         $query = LostFound::with('user')
             ->where('status', 'hilang')
             ->latest();
 
+        // Search
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function($q) use ($search) {
@@ -59,13 +64,16 @@ class LostFoundController extends Controller
         return view('lost-items.index', compact('items'));
     }
 
-    // Found Items - barang ditemukan
+    // ===========================
+    // FOUND ITEMS
+    // ===========================
     public function foundItems(Request $request)
     {
         $query = LostFound::with('user')
             ->where('status', 'ditemukan')
             ->latest();
 
+        // Search
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function($q) use ($search) {
@@ -80,20 +88,28 @@ class LostFoundController extends Controller
         return view('found-items.index', compact('items'));
     }
 
-    // My Reports - laporan user
+    // ===========================
+    // MY REPORTS
+    // ===========================
     public function myReports(Request $request)
     {
-        $query = LostFound::where('user_id', Auth::id())->latest();
+        $userId = Auth::id();
 
+        $query = LostFound::where('user_id', $userId);
+
+        // Filter status
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
 
-        $items = $query->paginate(10);
+        $items = $query->orderBy('created_at', 'desc')->paginate(10);
 
         return view('my-reports.index', compact('items'));
     }
 
+    // ===========================
+    // FORM CREATE
+    // ===========================
     public function createLost()
     {
         return view('lost-items.create');
@@ -104,7 +120,9 @@ class LostFoundController extends Controller
         return view('found-items.create');
     }
 
-    // Store new lost/found item
+    // ===========================
+    // STORE DATA
+    // ===========================
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -118,7 +136,7 @@ class LostFoundController extends Controller
 
         $validated['user_id'] = Auth::id();
 
-        // Upload foto
+        // Upload Foto
         if ($request->hasFile('foto')) {
             $file = $request->file('foto');
             $filename = time() . '_' . $file->getClientOriginalName();
@@ -133,12 +151,19 @@ class LostFoundController extends Controller
             ->with('success', 'Laporan berhasil dibuat!');
     }
 
+    // ===========================
+    // SHOW DETAIL
+    // ===========================
     public function show($id)
     {
         $item = LostFound::with('user')->findOrFail($id);
+
         return view('lost-founds.show', compact('item'));
     }
 
+    // ===========================
+    // EDIT REPORT
+    // ===========================
     public function edit($id)
     {
         $item = LostFound::findOrFail($id);
@@ -150,6 +175,9 @@ class LostFoundController extends Controller
         return view('lost-founds.edit', compact('item'));
     }
 
+    // ===========================
+    // UPDATE REPORT
+    // ===========================
     public function update(Request $request, $id)
     {
         $item = LostFound::findOrFail($id);
@@ -167,8 +195,10 @@ class LostFoundController extends Controller
             'foto' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048'
         ]);
 
+        // Upload Foto Baru
         if ($request->hasFile('foto')) {
 
+            // Hapus foto lama
             if ($item->foto && file_exists(public_path($item->foto))) {
                 unlink(public_path($item->foto));
             }
@@ -186,6 +216,9 @@ class LostFoundController extends Controller
             ->with('success', 'Laporan berhasil diupdate!');
     }
 
+    // ===========================
+    // DELETE REPORT
+    // ===========================
     public function destroy($id)
     {
         $item = LostFound::findOrFail($id);
@@ -194,6 +227,7 @@ class LostFoundController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
+        // Hapus foto jika ada
         if ($item->foto && file_exists(public_path($item->foto))) {
             unlink(public_path($item->foto));
         }

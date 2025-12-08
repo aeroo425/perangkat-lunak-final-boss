@@ -2,18 +2,21 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class LostFound extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'user_id',
-        'judul',
-        'deskripsi',
-        'foto',
-        'lokasi',
-        'tanggal',
-        'status',
+        'title',        // judul barang
+        'description',  // deskripsi
+        'image',        // foto barang
+        'location',     // lokasi kehilangan / penemuan
+        'contact',      // kontak pelapor
+        'status',       // status: lost/found/resolved
     ];
 
     public function user()
