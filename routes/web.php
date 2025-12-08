@@ -116,6 +116,7 @@ Route::get('/dashboard', function (Request $request) {
 })->middleware(['auth'])->name('dashboard');
 
 
+Route::get('/items/{id}', [ItemController::class, 'show'])->name('items.show');
 
 
 
