@@ -97,13 +97,7 @@
         <!-- MAIN CONTENT -->
         <main class="py-4">
 
-            @if(session('success'))
-            <div class="container">
-                <div class="alert alert-success text-center">
-                    {{ session('success') }}
-                </div>
-            </div>
-            @endif
+
 
             @if ($errors->any())
             <div class="container">
@@ -120,6 +114,13 @@
             @yield('content')
         </main>
     </div>
+    @if(session('success'))
+            <div class="container">
+                <div class="alert alert-success text-center">
+                    {{ session('success') }}
+                </div>
+            </div>
+            @endif
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

@@ -158,7 +158,7 @@ class LostFoundController extends Controller
     {
         $item = LostFound::with('user')->findOrFail($id);
 
-        return view('lost-founds.show', compact('item'));
+        return view('items.show_item', compact('item'));
     }
 
     // ===========================
@@ -172,7 +172,7 @@ class LostFoundController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        return view('lost-founds.edit', compact('item'));
+        return view('items.show_item', compact('item'));
     }
 
     // ===========================

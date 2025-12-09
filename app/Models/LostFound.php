@@ -18,14 +18,13 @@ class LostFound extends Model
     'deskripsi',
     'status',
     'gambar',
-    'user_id'
-        'user_id',
+    'user_id',
         'title',        // judul barang
         'description',  // deskripsi
         'image',        // foto barang
         'location',     // lokasi kehilangan / penemuan
         'contact',      // kontak pelapor
-        'status',       // status: lost/found/resolved
+        'status'      // status: lost/found/resolved
     ];
 
     public function user()
