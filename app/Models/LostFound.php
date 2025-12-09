@@ -7,13 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class LostFound extends Model
 {
     protected $fillable = [
-        'user_id',
-        'judul',
-        'deskripsi',
-        'foto',
-        'lokasi',
-        'tanggal',
-        'status',
+         'judul',
+    'nama_barang',
+    'lokasi',
+    'tanggal',
+    'jenis',
+    'deskripsi',
+    'status',
+    'gambar',
+    'user_id'
     ];
 
     public function user()
