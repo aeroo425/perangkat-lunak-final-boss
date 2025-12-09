@@ -10,6 +10,15 @@ class LostFound extends Model
     use HasFactory;
 
     protected $fillable = [
+         'judul',
+    'nama_barang',
+    'lokasi',
+    'tanggal',
+    'jenis',
+    'deskripsi',
+    'status',
+    'gambar',
+    'user_id'
         'user_id',
         'title',        // judul barang
         'description',  // deskripsi
