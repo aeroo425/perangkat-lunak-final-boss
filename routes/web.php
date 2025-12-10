@@ -122,6 +122,9 @@ Route::get('/dashboard', function (Request $request) {
 Route::get('/items', [ItemController::class, 'index'])->name('items.index');
 Route::get('/items/{id}', [ItemController::class, 'show'])->name('items.show');
 
+Route::get('/lost-found/{id}', [LostFoundController::class, 'show'])
+    ->name('lostfound.show');
+
 
 
 

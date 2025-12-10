@@ -243,14 +243,14 @@
                             @endif
 
                             {{-- pastikan route-nya ada --}}
-                            <a href="{{ route('lost-found.show', $item->id) }}" class="detail-btn mt-2">Lihat Detail</a>
+                            <a href="{{ route('lostfound.show', $item->id) }}" class="detail-btn mt-2">Lihat Detail</a>
                         </div>
                     </div>
                 @endforeach
             </div>
 
             <div class="mt-4">
-                
+
             </div>
 
         @else

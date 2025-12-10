@@ -155,11 +155,11 @@ class LostFoundController extends Controller
     // SHOW DETAIL
     // ===========================
     public function show($id)
-    {
-        $item = LostFound::with('user')->findOrFail($id);
+{
+    $item = LostFound::findOrFail($id);
+    return view('items.show_item', compact('item'));
+}
 
-        return view('items.show_item', compact('item'));
-    }
 
     // ===========================
     // EDIT REPORT
