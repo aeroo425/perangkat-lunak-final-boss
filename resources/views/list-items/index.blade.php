@@ -1,14 +1,10 @@
-@extends('layouts.app')
+"@extends('layouts.app')
 
 @section('content')
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
 <style>
     body {
-        background-color: #87A9C4;
+        background-color: #87A9C4 !important;
         font-family: 'Poppins', sans-serif;
     }
 
@@ -53,186 +49,202 @@
         border: 2px solid #DE8651;
     }
 
-    .item-card {
+    .list-item-card {
         background: white;
-        border-radius: 12px;
-        padding: 18px;
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        transition: transform 0.2s, box-shadow 0.2s;
+        height: 100%;
         display: flex;
-        align-items: center;
-        gap: 18px;
-        box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        flex-direction: column;
     }
 
-    .item-img {
-        width: 90px;
-        height: 90px;
-        border-radius: 10px;
+    .list-item-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    }
+
+    .item-image {
+        width: 100%;
+        height: 200px;
+        border-radius: 12px;
         object-fit: cover;
         background: #ddd;
+        margin-bottom: 15px;
     }
 
-    .status-dot {
-        width: 16px;
-        height: 16px;
-        border-radius: 50%;
+    .no-image {
+        width: 100%;
+        height: 200px;
+        border-radius: 12px;
+        background: #e0e0e0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 15px;
     }
 
-    .detail-btn {
+    .badge-lost {
+        background-color: #dc3545;
+        color: white;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    .badge-found {
+        background-color: #28a745;
+        color: white;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    .item-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .item-info {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 8px;
+    }
+
+    .item-info i {
+        margin-right: 8px;
+        color: #DE8651;
+    }
+
+    .detail-link {
         background: #DE8651;
         border: none;
-        padding: 7px 18px;
+        padding: 8px 20px;
         color: white;
         border-radius: 12px;
         font-weight: bold;
         font-size: 14px;
         text-decoration: none;
+        display: inline-block;
+        margin-top: auto;
+        text-align: center;
     }
 
-    .detail-btn:hover {
+    .detail-link:hover {
         background: #c96f3f;
         color: white;
     }
-
-    .filter-btn {
-        padding: 10px 25px;
-        border-radius: 12px;
-        font-weight: bold;
-        border: none;
-        cursor: pointer;
-        text-decoration: none;
-        transition: all 0.3s;
-    }
-
-    .filter-btn.active {
-        background: #DE8651;
-        color: white;
-    }
-
-    .filter-btn:not(.active) {
-        background: white;
-        color: black;
-    }
-
-    .filter-btn:not(.active):hover {
-        background: #f0f0f0;
-    }
 </style>
 
-<div class="min-vh-100 pb-5">
+<div class=\"min-vh-100 pb-5\">
 
     {{-- NAVBAR --}}
-    <nav class="navbar navbar-expand-lg navbar-custom shadow-sm">
-        <div class="container-fluid">
+    <nav class=\"navbar navbar-expand-lg navbar-custom shadow-sm\">
+        <div class=\"container-fluid\">
 
-            <div class="d-flex align-items-center gap-3">
-                <img src="/Frame 1.png" class="logo-img">
-                <h4 class="fw-bold m-0">LOST AND FOUND</h4>
+            <div class=\"d-flex align-items-center gap-3\">
+                <img src=\"/Frame 1.png\" class=\"logo-img\">
+                <h4 class=\"fw-bold m-0\">LOST AND FOUND</h4>
             </div>
 
-            <div class="d-flex align-items-center ms-auto me-4">
-                <a href="{{ route('dashboard') }}" class="menu-link">Home</a>
-                <a href="{{ route('list-items.index') }}" class="menu-link active">List Item</a>
-                <a href="{{ route('my-reports.index') }}" class="menu-link">My Report</a>
+            <div class=\"d-flex align-items-center ms-auto me-4\">
+                <a href=\"{{ route('dashboard') }}\" class=\"menu-link\">Home</a>
+                <a href=\"{{ route('list-items.index') }}\" class=\"menu-link active\">List Item</a>
+                <a href=\"{{ route('my-reports.index') }}\" class=\"menu-link\">My Report</a>
             </div>
 
-            <div class="dropdown">
-                <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="text-decoration: none; color: black;">
-                    <img src="/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.webp" class="profile-img">
+            <div class=\"dropdown\">
+                <a class=\"dropdown-toggle\" href=\"#\" role=\"button\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\" style=\"text-decoration: none; color: black;\">
+                    <img src=\"/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.webp\" class=\"profile-img\">
                 </a>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <li><span class="dropdown-item-text"><strong>{{ Auth::user()->name }}</strong></span></li>
-                    <li><hr class="dropdown-divider"></li>
+                <ul class=\"dropdown-menu dropdown-menu-end\">
+                    <li><span class=\"dropdown-item-text\"><strong>{{ Auth::user()->name }}</strong></span></li>
+                    <li><hr class=\"dropdown-divider\"></li>
                     <li>
-                        <form action="{{ route('logout') }}" method="POST">
+                        <form action=\"{{ route('logout') }}\" method=\"POST\">
                             @csrf
-                            <button type="submit" class="dropdown-item">Logout</button>
+                            <button type=\"submit\" class=\"dropdown-item\">Logout</button>
                         </form>
                     </li>
                 </ul>
             </div>
+
         </div>
     </nav>
 
-    <div class="container mt-5 p-4 rounded shadow" style="background:#9FB6C7;">
+    <div class=\"container mt-5 p-4 rounded shadow\" style=\"background:#9FB6C7;\">
 
-        <div class="mb-4">
-            <h3 class="fw-bold mb-3">LIST ITEM</h3>
-
-            {{-- Search Bar --}}
-            <form method="GET" action="{{ route('list-items.index') }}" class="mb-3">
-                <div class="position-relative" style="max-width: 350px;">
-                    <input type="text" name="search" class="form-control rounded-pill ps-4" placeholder="Cari Barang..." value="{{ request('search') }}">
-                    <input type="hidden" name="status" value="{{ request('status') }}">
-                    <button type="submit" class="btn btn-link position-absolute" style="top:0; right:10px;">
-                        <i class="fa-solid fa-magnifying-glass" style="color:gray;"></i>
-                    </button>
-                </div>
-            </form>
-
-            {{-- Filter Buttons --}}
-            <div class="d-flex gap-3">
-                <a href="{{ route('list-items.index', ['search' => request('search'), 'status' => 'hilang']) }}"
-                   class="filter-btn {{ request('status') === 'hilang' ? 'active' : '' }}">
-                    Barang Hilang
-                </a>
-                <a href="{{ route('list-items.index', ['search' => request('search'), 'status' => 'ditemukan']) }}"
-                   class="filter-btn {{ request('status') === 'ditemukan' ? 'active' : '' }}">
-                    Barang Ditemukan
-                </a>
-            </div>
+        <div class=\"mb-4\">
+            <h3 class=\"fw-bold text-center\">LIST ITEM</h3>
+            <p class=\"text-center\">Daftar semua barang hilang dan ditemukan</p>
         </div>
 
-        @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
-
         @if($items->count() > 0)
-            <div class="d-flex flex-column gap-4">
+            <div class=\"row g-4\">
                 @foreach($items as $item)
-                    <div class="item-card">
-                        @if($item->foto)
-                            <img src="{{ asset($item->foto) }}" class="item-img" alt="{{ $item->judul }}">
-                        @else
-                            <div class="item-img d-flex align-items-center justify-content-center bg-secondary text-white">
-                                <i class="fa-solid fa-image fa-2x"></i>
-                            </div>
-                        @endif
+                    <div class=\"col-12 col-sm-6 col-lg-4 col-xl-3\">
+                        <div class=\"list-item-card\">
 
-                        <div class="flex-grow-1">
-                            <h5 class="fw-bold">{{ $item->judul }}</h5>
-                            <p class="mb-1"><i class="fa-solid fa-user"></i> Dilaporkan oleh: {{ $item->user->name }}</p>
-                            <p class="mb-1"><i class="fa-solid fa-location-dot"></i> Lokasi: {{ $item->lokasi }}</p>
-                            <p class="mb-1"><i class="fa-solid fa-calendar"></i> Tanggal: {{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}</p>
-                        </div>
-
-                        <div class="text-end">
-                            @if($item->status === 'hilang')
-                                <div class="d-flex align-items-center justify-content-end gap-2 text-danger fw-bold">
-                                    <div class="status-dot" style="border:2px solid red;"></div>
-                                    HILANG
-                                </div>
+                            {{-- Gambar Item --}}
+                            @if($item->foto)
+                                <img src=\"{{ asset($item->foto) }}\" class=\"item-image\" alt=\"{{ $item->judul }}\">
                             @else
-                                <div class="d-flex align-items-center justify-content-end gap-2 text-success fw-bold">
-                                    <div class="status-dot" style="border:2px solid green;"></div>
-                                    DITEMUKAN
+                                <div class=\"no-image\">
+                                    <i class=\"fa-solid fa-image fa-3x text-secondary\"></i>
                                 </div>
                             @endif
-                            <a href="{{ route('lost-found.show', $item->id) }}" class="detail-btn mt-2">Lihat Detail</a>
+
+                            {{-- Nama Barang --}}
+                            <div class=\"item-title\">{{ $item->judul }}</div>
+
+                            {{-- Status Badge --}}
+                            <div class=\"mb-3\">
+                                @if($item->status === 'hilang')
+                                    <span class=\"badge-lost\">
+                                        <i class=\"fa-solid fa-circle-exclamation\"></i> LOST
+                                    </span>
+                                @else
+                                    <span class=\"badge-found\">
+                                        <i class=\"fa-solid fa-circle-check\"></i> FOUND
+                                    </span>
+                                @endif
+                            </div>
+
+                            {{-- Lokasi --}}
+                            @if($item->lokasi)
+                                <div class=\"item-info\">
+                                    <i class=\"fa-solid fa-location-dot\"></i>
+                                    {{ Str::limit($item->lokasi, 30) }}
+                                </div>
+                            @endif
+
+                            {{-- Tanggal --}}
+                            @if($item->tanggal)
+                                <div class=\"item-info\">
+                                    <i class=\"fa-solid fa-calendar\"></i>
+                                    {{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}
+                                </div>
+                            @endif
+
+                            {{-- Tombol Detail --}}
+                            <a href=\"{{ route('lost-found.show', $item->id) }}\" class=\"detail-link mt-3\">
+                                Lihat Detail
+                            </a>
+
                         </div>
                     </div>
                 @endforeach
             </div>
 
-            <div class="mt-4">
-                {{ $items->appends(request()->query())->links() }}
-            </div>
         @else
-            <div class="alert alert-info text-center">
-                <i class="fa-solid fa-inbox fa-3x mb-3"></i>
-                <p class="mb-0">Tidak ada item ditemukan.</p>
+            <div class=\"alert alert-info text-center\">
+                <i class=\"fa-solid fa-inbox fa-3x mb-3\"></i>
+                <p class=\"mb-0\">Tidak ada item ditemukan</p>
             </div>
         @endif
 
@@ -241,3 +253,4 @@
 </div>
 
 @endsection
+"
