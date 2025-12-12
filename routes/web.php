@@ -2,17 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\OTPController;
-use Illuminate\Support\Facades\Auth;
-
-
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LostFoundController;
-use App\Models\LostFound;
-use Illuminate\Http\Request;
 use App\Http\Controllers\ItemController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -66,6 +60,13 @@ Route::middleware(['auth'])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
+    | LIST ITEMS (Lost & Found Combined)
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/list-items', [LostFoundController::class, 'listItems'])->name('list-items.index');
+
+    /*
+    |--------------------------------------------------------------------------
     | LOST ITEMS (Barang Hilang)
     |--------------------------------------------------------------------------
     */
@@ -98,38 +99,12 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/lost-found/{id}', [LostFoundController::class, 'update'])->name('lost-found.update');
     Route::delete('/lost-found/{id}', [LostFoundController::class, 'destroy'])->name('lost-found.destroy');
 
-Route::get('/dashboard', function (Request $request) {
-
-    $query = LostFound::query();
-
-    // Search
-    if ($request->search) {
-        $query->where('nama_barang', 'like', '%' . $request->search . '%');
-    }
-
-    // Filter status
-    if ($request->status != null && $request->status !== '') {
-        $query->where('status', $request->status);
-    }
-
-    $items = $query->get();
-
-    return view('dashboard', compact('items'));
-
-})->middleware(['auth'])->name('dashboard');
-
-
-Route::get('/items', [ItemController::class, 'index'])->name('items.index');
-Route::get('/items/{id}', [ItemController::class, 'show'])->name('items.show');
-
-Route::get('/lost-found/{id}', [LostFoundController::class, 'show'])
-    ->name('lostfound.show');
-
-
-
+    /*
+    |--------------------------------------------------------------------------
+    | ITEMS (UI tambahan bila dibutuhkan)
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/items', [ItemController::class, 'index'])->name('items.index');
+    Route::get('/items/{id}', [ItemController::class, 'show'])->name('items.show');
 
 });
-
-
-
-
