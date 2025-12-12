@@ -253,5 +253,19 @@ class LostFoundController extends Controller
             ->route('my-reports.index')
             ->with('success', 'Laporan berhasil dihapus!');
     }
+
+    public function search(Request $request)
+{
+    $search = $request->input('search');
+
+    $items = LostFound::where('judul', 'like', "%{$search}%")
+        ->orWhere('deskripsi', 'like', "%{$search}%")
+        ->orWhere('lokasi', 'like', "%{$search}%")
+        ->latest()
+        ->paginate(12);
+
+    return view('list-items.index', compact('items'));
+}
+
 }
 

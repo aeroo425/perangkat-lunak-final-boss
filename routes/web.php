@@ -56,4 +56,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/lost-found/{id}', [LostFoundController::class, 'update'])->name('lost-found.update');
     Route::delete('/lost-found/{id}', [LostFoundController::class, 'destroy'])->name('lost-found.destroy');
 
+    Route::get('/items/search', [LostFoundController::class, 'search'])->name('items.search');
+
+
 });

@@ -178,6 +178,14 @@
     </nav>
 
     <div class=\"container mt-5 p-4 rounded shadow\" style=\"background:#9FB6C7;\">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Daftar Barang Lost & Found</h3>
+
+    <form action="{{ route('items.search') }}" method="GET" class="d-flex" style="width: 300px;">
+        <input name="search" class="form-control me-2" type="search" placeholder="Cari barang..." required>
+        <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+</div>
 
         <div class=\"mb-4\">
             <h3 class=\"fw-bold text-center\">LIST ITEM</h3>
