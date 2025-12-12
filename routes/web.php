@@ -125,6 +125,7 @@ Route::get('/items/{id}', [ItemController::class, 'show'])->name('items.show');
 Route::get('/lost-found/{id}', [LostFoundController::class, 'show'])
     ->name('lostfound.show');
 
+Route::get('/items/search', [LostFoundController::class, 'search'])->name('items.search');
 
 
 
