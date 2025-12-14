@@ -2,13 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\OTPController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LostFoundController;
-use App\Models\LostFound;
-use Illuminate\Http\Request;
+use App\Http\Controllers\ItemController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -39,6 +36,18 @@ Route::middleware(['auth'])->group(function () {
         ->name('list-items.index');
 
     // Lost items
+    /*
+    |--------------------------------------------------------------------------
+    | LIST ITEMS (Lost & Found Combined)
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/list-items', [LostFoundController::class, 'listItems'])->name('list-items.index');
+
+    /*
+    |--------------------------------------------------------------------------
+    | LOST ITEMS (Barang Hilang)
+    |--------------------------------------------------------------------------
+    */
     Route::get('/lost-items', [LostFoundController::class, 'lostItems'])->name('lost-items.index');
     Route::get('/lost-items/create', [LostFoundController::class, 'createLost'])->name('lost-items.create');
 
@@ -58,5 +67,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/items/search', [LostFoundController::class, 'search'])->name('items.search');
 
+    /*
+    |--------------------------------------------------------------------------
+    | ITEMS (UI tambahan bila dibutuhkan)
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/items', [ItemController::class, 'index'])->name('items.index');
+    Route::get('/items/{id}', [ItemController::class, 'show'])->name('items.show');
 
 });
