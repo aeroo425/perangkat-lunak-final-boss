@@ -151,12 +151,7 @@
             </a>
         </div>
 
-        @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
+       
 
         <form method="GET" action="{{ route('lost-items.index') }}">
             <div class="d-flex flex-wrap align-items-center gap-3 mb-4">
