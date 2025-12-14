@@ -49,7 +49,6 @@ class LostFoundController extends Controller
             ->where('status', 'hilang')
             ->latest();
 
-        // Search
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function($q) use ($search) {
@@ -65,7 +64,7 @@ class LostFoundController extends Controller
     }
 
     // ===========================
-    // FOUND ITEMS
+    // FOUND ITEMS (UPDATED)
     // ===========================
     public function foundItems(Request $request)
     {
@@ -89,6 +88,18 @@ class LostFoundController extends Controller
     }
 
     // ===========================
+    // LIST ITEMS (NEW)
+    // ===========================
+    public function listItems()
+    {
+        $items = LostFound::with('user')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('list-items.index', compact('items'));
+    }
+
+    // ===========================
     // MY REPORTS
     // ===========================
     public function myReports(Request $request)
@@ -97,7 +108,6 @@ class LostFoundController extends Controller
 
         $query = LostFound::where('user_id', $userId);
 
-        // Filter status
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
@@ -155,11 +165,10 @@ class LostFoundController extends Controller
     // SHOW DETAIL
     // ===========================
     public function show($id)
-{
-    $item = LostFound::findOrFail($id);
-    return view('items.show_item', compact('item'));
-}
-
+    {
+        $item = LostFound::findOrFail($id);
+        return view('items.show_item', compact('item'));
+    }
 
     // ===========================
     // EDIT REPORT
@@ -198,7 +207,6 @@ class LostFoundController extends Controller
         // Upload Foto Baru
         if ($request->hasFile('foto')) {
 
-            // Hapus foto lama
             if ($item->foto && file_exists(public_path($item->foto))) {
                 unlink(public_path($item->foto));
             }
@@ -227,7 +235,6 @@ class LostFoundController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        // Hapus foto jika ada
         if ($item->foto && file_exists(public_path($item->foto))) {
             unlink(public_path($item->foto));
         }
