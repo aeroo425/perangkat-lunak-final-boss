@@ -13,6 +13,9 @@ class LostFoundController extends Controller
         $this->middleware('auth');
     }
 
+    /* --------------------------------------------------------
+     * DASHBOARD (semua item)
+     * -------------------------------------------------------- */
     /* ============================================================
        DASHBOARD - Semua items
     ============================================================ */
@@ -41,6 +44,9 @@ class LostFoundController extends Controller
         return view('dashboard', compact('items'));
     }
 
+    /* --------------------------------------------------------
+     * LIST ITEMS (gabungan lost + found)
+     * -------------------------------------------------------- */
     /* ============================================================
        LIST ITEMS GLOBAL (BARU DITAMBAHKAN)
     ============================================================ */
@@ -58,6 +64,14 @@ class LostFoundController extends Controller
             });
         }
 
+        $items = $query->paginate(10);
+
+        return view('list-items.index', compact('items'));
+    }
+
+    /* --------------------------------------------------------
+     * LOST ITEMS
+     * -------------------------------------------------------- */
         // Filter status
         if ($request->filled('status') && in_array($request->status, ['hilang','ditemukan'])) {
             $query->where('status', $request->status);
@@ -94,6 +108,9 @@ class LostFoundController extends Controller
         return view('lost-items.index', compact('items'));
     }
 
+    /* --------------------------------------------------------
+     * FOUND ITEMS
+     * -------------------------------------------------------- */
     /* ============================================================
        FOUND ITEMS
     ============================================================ */
@@ -121,6 +138,9 @@ class LostFoundController extends Controller
         return view('found-items.index', compact('items'));
     }
 
+    /* --------------------------------------------------------
+     * MY REPORTS
+     * -------------------------------------------------------- */
     /* ============================================================
        REPORT USER SENDIRI
     ============================================================ */
@@ -154,6 +174,9 @@ class LostFoundController extends Controller
         return view('my-reports.index', compact('items'));
     }
 
+    /* --------------------------------------------------------
+     * CREATE LOST
+     * -------------------------------------------------------- */
     /* ============================================================
        CREATE FORM
     ============================================================ */
@@ -165,11 +188,17 @@ class LostFoundController extends Controller
         return view('lost-items.create');
     }
 
+    /* --------------------------------------------------------
+     * CREATE FOUND
+     * -------------------------------------------------------- */
     public function createFound()
     {
         return view('found-items.create');
     }
 
+    /* --------------------------------------------------------
+     * STORE
+     * -------------------------------------------------------- */
     /* ============================================================
        STORE DATA
     ============================================================ */
@@ -204,6 +233,9 @@ class LostFoundController extends Controller
             ->with('success', 'Laporan berhasil dibuat!');
     }
 
+    /* --------------------------------------------------------
+     * SHOW
+     * -------------------------------------------------------- */
     /* ============================================================
        SHOW DETAIL ITEM
     ============================================================ */
@@ -216,6 +248,9 @@ class LostFoundController extends Controller
         return view('items.show_item', compact('item'));
     }
 
+    /* --------------------------------------------------------
+     * EDIT
+     * -------------------------------------------------------- */
     /* ============================================================
        EDIT ITEM
     ============================================================ */
@@ -233,6 +268,9 @@ class LostFoundController extends Controller
         return view('items.show_item', compact('item'));
     }
 
+    /* --------------------------------------------------------
+     * UPDATE
+     * -------------------------------------------------------- */
     /* ============================================================
        UPDATE ITEM
     ============================================================ */
@@ -258,7 +296,6 @@ class LostFoundController extends Controller
 
         // Upload Foto Baru
         if ($request->hasFile('foto')) {
-
             if ($item->foto && file_exists(public_path($item->foto))) {
                 unlink(public_path($item->foto));
             }
@@ -276,6 +313,9 @@ class LostFoundController extends Controller
             ->with('success', 'Laporan berhasil diupdate!');
     }
 
+    /* --------------------------------------------------------
+     * DELETE
+     * -------------------------------------------------------- */
     /* ============================================================
        DELETE ITEM
     ============================================================ */
