@@ -117,6 +117,24 @@
     .filter-btn:hover {
         background: #c96f3f;
     }
+
+    .stamp-diklaim {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-12deg);
+    border: 4px solid #DC2626;
+    color: #DC2626;
+    padding: 12px 20px;
+    font-weight: 900;
+    font-size: 16px;
+    background: rgba(255,255,255,0.9);
+    z-index: 10;
+    pointer-events: none;
+}
+
+
+
 </style>
 
 <div class="min-vh-100 pb-5">
@@ -136,6 +154,8 @@
                 <a href="{{ route('found-items.index') }}" class="menu-link {{ request()->routeIs('found-items.*') ? 'active' : '' }}">Found Item</a>
                 <a href="{{ route('my-reports.index') }}" class="menu-link {{ request()->routeIs('my-reports.*') ? 'active' : '' }}">My Report</a>
             </div>
+
+
 
             <div class="dropdown">
                 <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
@@ -190,6 +210,29 @@
 
 
     {{-- CONTENT --}}
+
+    @if(session('success'))
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+Swal.fire({
+    icon: 'success',
+    title: 'Berhasil',
+    text: "{{ session('success') }}"
+});
+</script>
+@endif
+
+@if(session('error'))
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+Swal.fire({
+    icon: 'error',
+    title: 'Gagal',
+    text: "{{ session('error') }}"
+});
+</script>
+@endif
+
     <div class="container mt-5 p-4 rounded shadow" style="background:#9FB6C7;">
 
         <h3 class="fw-bold mb-4">Daftar Barang</h3>
@@ -220,9 +263,22 @@
         @if($items->count() > 0)
             <div class="d-flex flex-column gap-4">
                 @foreach($items as $item)
-                    <div class="item-card">
+                    <div class="item-card position-relative">
+                        {{-- STEMPEL JIKA SUDAH DIKLAIM --}}
+@if($item->status === 'diklaim')
+    <div class="stamp-diklaim">
+        BARANG SUDAH DIKLAIM
+    </div>
+@endif
 
-                        <img src="{{ asset($item->foto ?? 'default.png') }}" class="item-img" alt="{{ $item->judul }}">
+
+
+                        @if($item->foto)
+    <img src="{{ asset('storage/' . $item->foto) }}"
+         alt="Foto barang"
+         style="max-width:200px">
+@endif
+
 
                         <div class="flex-grow-1">
                             <h5 class="fw-bold">{{ $item->judul }}</h5>
@@ -232,18 +288,23 @@
                         </div>
 
                         <div class="text-end">
-                            @if($item->status == 'ditemukan')
-                                <div class="d-flex align-items-center justify-content-end gap-2 text-success fw-bold">
-                                    <div class="status-dot" style="border:2px solid green;"></div> DITEMUKAN
-                                </div>
-                            @else
-                                <div class="d-flex align-items-center justify-content-end gap-2 text-danger fw-bold">
-                                    <div class="status-dot" style="border:2px solid red;"></div> HILANG
-                                </div>
-                            @endif
+                           @if($item->status === 'ditemukan')
+    <div class="d-flex align-items-center justify-content-end gap-2 text-success fw-bold">
+        <div class="status-dot" style="border:2px solid green;"></div> DITEMUKAN
+    </div>
+@elseif($item->status === 'hilang')
+    <div class="d-flex align-items-center justify-content-end gap-2 text-danger fw-bold">
+        <div class="status-dot" style="border:2px solid red;"></div> HILANG
+    </div>
+@elseif($item->status === 'diklaim')
+    <div class="d-flex align-items-center justify-content-end gap-2 text-secondary fw-bold">
+        <div class="status-dot" style="border:2px solid gray;"></div> DIKLAIM
+    </div>
+@endif
+
 
                             {{-- pastikan route-nya ada --}}
-                            <a href="{{ route('lostfound.show', $item->id) }}" class="detail-btn mt-2">Lihat Detail</a>
+                            <a href="{{ route('items.show_item', $item->id) }}" class="detail-btn mt-2">Lihat Detail</a>
                         </div>
                     </div>
                 @endforeach

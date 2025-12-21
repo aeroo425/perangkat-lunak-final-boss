@@ -103,6 +103,53 @@
         background: #218838;
         color: white;
     }
+
+    @foreach($items as $item)
+<div class="card mb-3 shadow-sm">
+    <div class="row g-0">
+
+        {{-- FOTO --}}
+        <div class="col-md-3">
+            @if($item->foto)
+                <img src="{{ asset('storage/' . $item->foto) }}"
+                     class="img-fluid rounded-start"
+                     alt="Foto Barang"
+                     style="height:100%; object-fit:cover;">
+            @else
+                <img src="{{ asset('images/no-image.png') }}"
+                     class="img-fluid rounded-start"
+                     alt="Tidak ada foto">
+            @endif
+        </div>
+
+        {{-- DETAIL --}}
+        <div class="col-md-9">
+            <div class="card-body">
+                <h5 class="fw-bold">{{ $item->judul }}</h5>
+
+                <p class="mb-1">
+                    <i class="fa fa-user"></i>
+                    Dilaporkan oleh: {{ $item->user->name }}
+                </p>
+
+                <p class="mb-1">
+                    <i class="fa fa-map-marker-alt"></i>
+                    Lokasi: {{ $item->lokasi }}
+                </p>
+
+                <p class="mb-1">
+                    <i class="fa fa-calendar"></i>
+                    Tanggal: {{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}
+                </p>
+
+                <span class="badge bg-danger">HILANG</span>
+            </div>
+        </div>
+
+    </div>
+</div>
+@endforeach
+
 </style>
 
 <div class="min-vh-100 pb-5">
@@ -174,12 +221,11 @@
                     <div class="item-card">
 
                         @if($item->foto)
-                            <img src="{{ asset($item->foto) }}" class="item-img">
-                        @else
-                            <div class="item-img d-flex align-items-center justify-content-center bg-secondary text-white">
-                                <i class="fa-solid fa-image fa-2x"></i>
-                            </div>
-                        @endif
+    <img src="{{ asset('storage/' . $item->foto) }}"
+         alt="Foto barang"
+         style="max-width:200px">
+@endif
+
 
                         <div class="flex-grow-1">
                             <h5 class="fw-bold">{{ $item->nama_barang }}</h5>

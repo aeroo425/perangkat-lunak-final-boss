@@ -137,8 +137,12 @@
                 </div>
             @endif
 
-            <form action="{{ route('lost-found.store') }}" method="POST" enctype="multipart/form-data">
-                @csrf
+            <form action="{{ route('lost-found.store') }}"
+      method="POST"
+      enctype="multipart/form-data">
+    @csrf
+
+
                 <input type="hidden" name="status" value="hilang">
 
                 <div class="mb-3">

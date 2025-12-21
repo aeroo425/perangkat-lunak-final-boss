@@ -2,316 +2,176 @@
 
 @section('content')
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-<div class="container mt-4">
-
-    <h2 class="mb-4 fw-bold text-center">List of Items</h2>
-
-    {{-- SEARCH BAR --}}
-    <form action="{{ route('items.search') }}" method="GET" class="d-flex">
-    <form action="{{ route('items.search') }}" method="GET" class="d-flex mb-4">
-        <input
-            name="search"
-            class="form-control me-2"
-            type="search"
-            placeholder="Cari barang..."
-            value="{{ request('search') }}"
-            required>
-        <button class="btn btn-primary" type="submit">Search</button>
-    </form>
-
-    <div class="row">
-        @forelse ($items as $item)
-            <div class="col-md-4 mb-4">
-                <div class="card shadow-sm">
-                    <img src="{{ asset('storage/' . $item->image) }}" class="card-img-top" alt="Item Image">
-
-                    <div class="card-body">
-                        <h5 class="card-title text-primary fw-bold">{{ $item->name }}</h5>
-                        <p class="card-text">{{ $item->description }}</p>
-                        <p class="card-text"><small class="text-muted">Location: {{ $item->location }}</small></p>
-                        <p class="card-text"><small class="text-muted">Status: {{ $item->status }}</small></p>
-
-                        <a href="{{ route('items.show', $item->id) }}" class="btn btn-outline-primary w-100">
-                            View Details
-                        </a>
-                    </div>
-                </div>
-            </div>
-        @empty
-            <div class="text-center text-muted">No items found.</div>
-        @endforelse
-    </div>
-
-    {{-- PAGINATION --}}
-    <div class="mt-3 d-flex justify-content-center">
-        {{ $items->links('pagination::bootstrap-5') }}
-    </div>
-</div>
-@endsection
-"@extends('layouts.app')
-
-@section('content')
-
 <style>
     body {
-        background-color: #87A9C4 !important;
+        background-color: #2D5165;
         font-family: 'Poppins', sans-serif;
     }
 
-    .navbar-custom {
-        background: #F6EEDB;
-        padding: 6px 25px;
+    .page-title {
+        color: #F9F1DD;
     }
 
-    .navbar-custom h4 {
-        font-size: 20px;
-        font-weight: 700;
+    /* NAVBAR */
+    .navbar-custom {
+        background: #F6EEDB;
+        padding: 8px 30px;
     }
 
     .logo-img {
-        width: 60px;
-        height: 60px;
+        width: 55px;
+        height: 55px;
         object-fit: contain;
     }
 
     .menu-link {
         font-weight: 600;
-        margin-right: 20px;
         font-size: 15px;
         text-decoration: none;
         color: black;
+        margin-left: 25px;
     }
 
-    .menu-link:hover {
-        color: #DE8651;
-    }
-
+    .menu-link:hover,
     .menu-link.active {
-        color: #DE8651;
-        border-bottom: 2px solid #DE8651;
+        color: #E46A2F;
+        border-bottom: 2px solid #E46A2F;
+        padding-bottom: 4px;
     }
 
-    .profile-img {
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 2px solid #DE8651;
-    }
-
-    .list-item-card {
-        background: white;
+    /* CARD */
+    .item-card {
+        background: #F9F1DD;
         border-radius: 15px;
-        padding: 20px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-        transition: transform 0.2s, box-shadow 0.2s;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
+        overflow: hidden;
+        position: relative;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .list-item-card:hover {
+    .item-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     }
 
-    .item-image {
-        width: 100%;
+    .item-img {
         height: 200px;
-        border-radius: 12px;
         object-fit: cover;
-        background: #ddd;
-        margin-bottom: 15px;
+        background: #D9D9D9;
     }
 
     .no-image {
-        width: 100%;
         height: 200px;
-        border-radius: 12px;
-        background: #e0e0e0;
+        background: #9CA3AF;
+        color: white;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 15px;
-    }
-
-    .badge-lost {
-        background-color: #dc3545;
-        color: white;
-        padding: 6px 14px;
-        border-radius: 20px;
-        font-size: 13px;
-        font-weight: bold;
-    }
-
-    .badge-found {
-        background-color: #28a745;
-        color: white;
-        padding: 6px 14px;
-        border-radius: 20px;
-        font-size: 13px;
         font-weight: bold;
     }
 
     .item-title {
+        font-weight: bold;
         font-size: 18px;
-        font-weight: bold;
-        margin-bottom: 10px;
-        color: #333;
     }
 
-    .item-info {
+    .item-location {
+        color: #6B7280;
         font-size: 14px;
-        color: #666;
-        margin-bottom: 8px;
     }
 
-    .item-info i {
-        margin-right: 8px;
-        color: #DE8651;
-    }
-
-    .detail-link {
-        background: #DE8651;
+    .btn-detail {
+        background: #E46A2F;
         border: none;
-        padding: 8px 20px;
-        color: white;
-        border-radius: 12px;
         font-weight: bold;
-        font-size: 14px;
-        text-decoration: none;
-        display: inline-block;
-        margin-top: auto;
-        text-align: center;
+        border-radius: 10px;
     }
 
-    .detail-link:hover {
-        background: #c96f3f;
-        color: white;
+    .btn-detail:hover {
+        background: #d45f29;
+    }
+
+    /* STATUS BADGE */
+    .status-badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        padding: 6px 14px;
+        border-radius: 30px;
+        font-weight: bold;
+        font-size: 13px;
+    }
+
+    .status-found {
+        background: #E8F5E9;
+        color: #2E7D32;
+        border: 2px solid #2E7D32;
+    }
+
+    .status-lost {
+        background: #FDECEA;
+        color: #C62828;
+        border: 2px solid #C62828;
     }
 </style>
 
-<div class=\"min-vh-100 pb-5\">
-
-    {{-- NAVBAR --}}
-    <nav class=\"navbar navbar-expand-lg navbar-custom shadow-sm\">
-        <div class=\"container-fluid\">
-
-            <div class=\"d-flex align-items-center gap-3\">
-                <img src=\"/Frame 1.png\" class=\"logo-img\">
-                <h4 class=\"fw-bold m-0\">LOST AND FOUND</h4>
-            </div>
-
-            <div class=\"d-flex align-items-center ms-auto me-4\">
-                <a href=\"{{ route('dashboard') }}\" class=\"menu-link\">Home</a>
-                <a href=\"{{ route('list-items.index') }}\" class=\"menu-link active\">List Item</a>
-                <a href=\"{{ route('my-reports.index') }}\" class=\"menu-link\">My Report</a>
-            </div>
-
-            <div class=\"dropdown\">
-                <a class=\"dropdown-toggle\" href=\"#\" role=\"button\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\" style=\"text-decoration: none; color: black;\">
-                    <img src=\"/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.webp\" class=\"profile-img\">
-                </a>
-                <ul class=\"dropdown-menu dropdown-menu-end\">
-                    <li><span class=\"dropdown-item-text\"><strong>{{ Auth::user()->name }}</strong></span></li>
-                    <li><hr class=\"dropdown-divider\"></li>
-                    <li>
-                        <form action=\"{{ route('logout') }}\" method=\"POST\">
-                            @csrf
-                            <button type=\"submit\" class=\"dropdown-item\">Logout</button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
-
-        </div>
-    </nav>
-
-    <div class=\"container mt-5 p-4 rounded shadow\" style=\"background:#9FB6C7;\">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-    <h3>Daftar Barang Lost & Found</h3>
-
-    <form action="{{ route('items.search') }}" method="GET" class="d-flex" style="width: 300px;">
-        <input name="search" class="form-control me-2" type="search" placeholder="Cari barang..." required>
-        <button class="btn btn-primary" type="submit">Search</button>
-    </form>
-</div>
-
-        <div class=\"mb-4\">
-            <h3 class=\"fw-bold text-center\">LIST ITEM</h3>
-            <p class=\"text-center\">Daftar semua barang hilang dan ditemukan</p>
+{{-- NAVBAR --}}
+<nav class="navbar navbar-expand-lg navbar-custom shadow-sm">
+    <div class="container-fluid">
+        <div class="d-flex align-items-center gap-3">
+            <img src="/Frame 1.png" class="logo-img">
+            <h4 class="fw-bold m-0">LOST AND FOUND</h4>
         </div>
 
-        @if($items->count() > 0)
-            <div class=\"row g-4\">
-                @foreach($items as $item)
-                    <div class=\"col-12 col-sm-6 col-lg-4 col-xl-3\">
-                        <div class=\"list-item-card\">
+        <div class="ms-auto">
+            <a href="{{ route('dashboard') }}"
+               class="menu-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                Home
+            </a>
+        </div>
+    </div>
+</nav>
 
-                            {{-- Gambar Item --}}
-                            @if($item->foto)
-                                <img src=\"{{ asset($item->foto) }}\" class=\"item-image\" alt=\"{{ $item->judul }}\">
-                            @else
-                                <div class=\"no-image\">
-                                    <i class=\"fa-solid fa-image fa-3x text-secondary\"></i>
-                                </div>
-                            @endif
+<div class="container mt-5">
 
-                            {{-- Nama Barang --}}
-                            <div class=\"item-title\">{{ $item->judul }}</div>
+    <h3 class="fw-bold text-center mb-4 page-title">
+        Daftar Barang Lost & Found
+    </h3>
 
-                            {{-- Status Badge --}}
-                            <div class=\"mb-3\">
-                                @if($item->status === 'hilang')
-                                    <span class=\"badge-lost\">
-                                        <i class=\"fa-solid fa-circle-exclamation\"></i> LOST
-                                    </span>
-                                @else
-                                    <span class=\"badge-found\">
-                                        <i class=\"fa-solid fa-circle-check\"></i> FOUND
-                                    </span>
-                                @endif
-                            </div>
+    <div class="row g-4">
+        @foreach($items as $item)
+            <div class="col-md-4">
+                <div class="card item-card shadow-sm">
 
-                            {{-- Lokasi --}}
-                            @if($item->lokasi)
-                                <div class=\"item-info\">
-                                    <i class=\"fa-solid fa-location-dot\"></i>
-                                    {{ Str::limit($item->lokasi, 30) }}
-                                </div>
-                            @endif
+                    {{-- STATUS --}}
+                    @if($item->status === 'ditemukan')
+                        <div class="status-badge status-found">DITEMUKAN</div>
+                    @elseif($item->status === 'hilang')
+                        <div class="status-badge status-lost">HILANG</div>
+                    @endif
 
-                            {{-- Tanggal --}}
-                            @if($item->tanggal)
-                                <div class=\"item-info\">
-                                    <i class=\"fa-solid fa-calendar\"></i>
-                                    {{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}
-                                </div>
-                            @endif
+                    {{-- GAMBAR --}}
+                    @if($item->foto)
+                        <img src="{{ asset('storage/' . $item->foto) }}"
+                             class="item-img w-100">
+                    @else
+                        <div class="no-image">Tidak ada gambar</div>
+                    @endif
 
-                            {{-- Tombol Detail --}}
-                            <a href=\"{{ route('lost-found.show', $item->id) }}\" class=\"detail-link mt-3\">
-                                Lihat Detail
-                            </a>
+                    <div class="card-body">
+                        <h5 class="item-title">{{ $item->judul }}</h5>
+                        <p class="item-location">{{ $item->lokasi }}</p>
 
-                        </div>
+                        <a href="{{ route('lost-found.show', $item->id) }}"
+                           class="btn btn-detail w-100 text-white">
+                            Lihat Detail
+                        </a>
                     </div>
-                @endforeach
-            </div>
 
-        @else
-            <div class=\"alert alert-info text-center\">
-                <i class=\"fa-solid fa-inbox fa-3x mb-3\"></i>
-                <p class=\"mb-0\">Tidak ada item ditemukan</p>
+                </div>
             </div>
-        @endif
-
+        @endforeach
     </div>
 
 </div>
 
 @endsection
-"

@@ -150,12 +150,12 @@ class LostFoundController extends Controller
 
         $validated['user_id'] = Auth::id();
 
-        if ($request->hasFile('foto')) {
-            $file = $request->file('foto');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads'), $filename);
-            $validated['foto'] = 'uploads/' . $filename;
-        }
+if ($request->hasFile('foto')) {
+    $path = $request->file('foto')->store('lost_found', 'public');
+    $validated['foto'] = $path;
+
+
+    }
 
         LostFound::create($validated);
 
@@ -169,7 +169,8 @@ class LostFoundController extends Controller
     public function show($id)
     {
         $item = LostFound::findOrFail($id);
-        return view('items.show_item', compact('item'));
+
+    return view('items.show_item', compact('item'));
     }
 
     /* ============================================================
@@ -207,14 +208,13 @@ class LostFoundController extends Controller
         ]);
 
         if ($request->hasFile('foto')) {
-            if ($item->foto && file_exists(public_path($item->foto))) {
-                unlink(public_path($item->foto));
+
+    if ($item->foto && \Storage::disk('public')->exists($item->foto)) {
+        \Storage::disk('public')->delete($item->foto);
             }
 
-            $file = $request->file('foto');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads'), $filename);
-            $validated['foto'] = 'uploads/' . $filename;
+            $path = $request->file('foto')->store('lost_found', 'public');
+    $validated['foto'] = $path;
         }
 
         $item->update($validated);
@@ -262,4 +262,14 @@ class LostFoundController extends Controller
 
         return view('list-items.index', compact('items', 'search'));
     }
+
+     public function index()
+    {
+        $items = LostFound::latest()->get();
+        return view('items.show_item', compact('items'));
+    }
+
+
+
+
 }
