@@ -106,3 +106,6 @@ Route::post('/items/{id}/klaim', [ItemController::class, 'klaim'])
 Route::get('/dashboard', [HomeController::class, 'index'])
     ->name('dashboard')
     ->middleware('auth');
+
+
+   
