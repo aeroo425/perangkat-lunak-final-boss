@@ -6,7 +6,8 @@ use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LostFoundController;
 use App\Http\Controllers\ItemController;
-
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminItemController;
 /*
 |--------------------------------------------------------------------------
 | Redirect root
@@ -108,4 +109,11 @@ Route::get('/dashboard', [HomeController::class, 'index'])
     ->middleware('auth');
 
 
-   
+
+// routes/web.php
+
+
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])
+        ->name('admin.dashboard');
+});
