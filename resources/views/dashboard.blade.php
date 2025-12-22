@@ -133,6 +133,24 @@
     pointer-events: none;
 }
 
+.profile-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #E5E7EB; /* abu muda */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #DE8651;
+    cursor: pointer;
+}
+
+.profile-avatar i {
+    font-size: 20px;
+    color: #6B7280; /* abu gelap */
+}
+
+
 
 
 </style>
@@ -153,28 +171,46 @@
                 <a href="{{ route('lost-items.index') }}" class="menu-link {{ request()->routeIs('lost-items.*') ? 'active' : '' }}">Lost Item</a>
                 <a href="{{ route('found-items.index') }}" class="menu-link {{ request()->routeIs('found-items.*') ? 'active' : '' }}">Found Item</a>
                 <a href="{{ route('my-reports.index') }}" class="menu-link {{ request()->routeIs('my-reports.*') ? 'active' : '' }}">My Report</a>
-            </div>
 
 
+        {{-- PROFILE --}}
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-            <div class="dropdown">
-                <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                    <img src="/default-profile.png" class="profile-img">
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    @if(Auth::check())
-                        <li><span class="dropdown-item-text"><strong>{{ Auth::user()->name }}</strong></span></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li>
-                            <form action="{{ route('logout') }}" method="POST">@csrf
-                                <button type="submit" class="dropdown-item">Logout</button>
-                            </form>
-                        </li>
-                    @endif
-                </ul>
-            </div>
+        <div class="dropdown ms-3">
+    <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle"
+       data-bs-toggle="dropdown" aria-expanded="false">
+        <div class="profile-avatar">
+    <i class="fa-solid fa-user"></i>
+</div>
 
-        </div>
+    </a>
+
+    <ul class="dropdown-menu dropdown-menu-end shadow">
+        <li class="dropdown-header text-center fw-bold">
+            {{ Auth::user()->name }}
+        </li>
+
+        <li><hr class="dropdown-divider"></li>
+
+        {{-- PROFILE --}}
+        <li>
+            <a class="dropdown-item" href="{{ route('profile') }}">
+                <i class="fa fa-user me-2"></i> Profile
+            </a>
+        </li>
+
+        {{-- LOGOUT --}}
+        <li>
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="dropdown-item text-danger">
+                    <i class="fa fa-sign-out-alt me-2"></i> Logout
+                </button>
+            </form>
+        </li>
+    </ul>
+</div>
+
     </nav>
 
     {{-- BANNER --}}
@@ -183,14 +219,18 @@
 
         {{-- Lost Items --}}
         <div class="col-md-4">
-            <div class="banner-box d-flex flex-column justify-content-center">
-                <i class="fa-solid fa-triangle-exclamation fa-4x text-warning"></i>
-                <h5 class="mt-2 fw-bold">Lost Items</h5>
-            </div>
+    <a href="{{ route('lost-items.index') }}" class="text-decoration-none">
+        <div class="banner-box d-flex flex-column justify-content-center text-center">
+            <i class="fa-solid fa-triangle-exclamation fa-4x text-warning"></i>
+            <h5 class="mt-2 fw-bold text-dark">Lost Items</h5>
         </div>
+    </a>
+</div>
+
 
         {{-- Found Items --}}
         <div class="col-md-4">
+            <a href="{{ route('found-items.index') }}" class="text-decoration-none"></a>
             <div class="banner-box d-flex flex-column justify-content-center">
                 <i class="fa-solid fa-hand-holding-heart fa-4x text-success"></i>
                 <h5 class="mt-2 fw-bold">Found Items</h5>
@@ -199,11 +239,13 @@
 
         {{-- Claim Items --}}
         <div class="col-md-4">
-            <div class="banner-box d-flex flex-column justify-content-center">
-                <i class="fa-solid fa-clipboard-check fa-4x text-primary"></i>
-                <h5 class="mt-2 fw-bold">Claim Items</h5>
-            </div>
+    <a href="{{ route('claim-items.index') }}" class="text-decoration-none text-dark">
+        <div class="banner-box d-flex flex-column justify-content-center text-center">
+            <i class="fa-solid fa-clipboard-check fa-4x text-primary"></i>
+            <h5 class="mt-2 fw-bold">Claim Items</h5>
         </div>
+    </a>
+</div>
 
     </div>
 </div>

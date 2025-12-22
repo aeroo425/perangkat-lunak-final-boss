@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Middleware\IsAdmin;
+use Illuminate\Foundation\Configuration\Middleware;
+
 /*
 |--------------------------------------------------------------------------
 | Create The Application
@@ -53,3 +56,5 @@ $app->singleton(
 */
 
 return $app;
+
+

@@ -27,6 +27,7 @@
     <div id="app">
 
         {{-- KOSONGKAN NAVBAR DEFAULT --}}
+
         {{-- Kamu pakai navbar custom di dashboard dan halaman lain --}}
         {{-- Jadi nav default Laravel disembunyikan --}}
 

@@ -228,20 +228,13 @@ if ($request->hasFile('foto')) {
     ============================================================ */
     public function destroy($id)
     {
-        $item = LostFound::findOrFail($id);
+         if (!auth()->user()->is_admin) {
+        abort(403);
+    }
 
-        if ($item->user_id !== Auth::id()) {
-            abort(403);
-        }
+    LostFound::findOrFail($id)->delete();
 
-        if ($item->foto && file_exists(public_path($item->foto))) {
-            unlink(public_path($item->foto));
-        }
-
-        $item->delete();
-
-        return redirect()->route('my-reports.index')
-            ->with('success', 'Laporan berhasil dihapus');
+    return back()->with('success', 'Item berhasil dihapus');
     }
 
     /* ============================================================

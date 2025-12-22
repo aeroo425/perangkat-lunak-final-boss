@@ -7,7 +7,12 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LostFoundController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AdminItemController;
+use App\Http\Controllers\Admin\ItemController as AdminItemController;
+use App\Http\Controllers\auth\LoginController;
+use App\Http\Controllers\admin\DashboardController;
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Redirect root
@@ -113,7 +118,95 @@ Route::get('/dashboard', [HomeController::class, 'index'])
 // routes/web.php
 
 
-Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])
+
+Route::get('/admin/dashboard', function () {
+    return view('admin.dashboard');
+})->name('admin.dashboard');
+
+
+Route::get('/profile', function () {
+    return view('profile');
+})->name('profile');
+
+
+Route::get('/claim-items', [App\Http\Controllers\ClaimItemController::class, 'index'])
+    ->name('claim-items.index');
+
+
+    Route::middleware(['auth', 'admin'])->group(function () {
+
+    Route::get('/admin/dashboard', function () {
+        return view('admin.dashboard');
+    })->name('admin.dashboard');
+
+});
+
+Route::middleware(['auth', 'admin'])
+    ->prefix('admin')
+    ->group(function () {
+
+        Route::get('/dashboard', function () {
+            return view('admin.dashboard');
+        })->name('admin.dashboard');
+
+        Route::resource('/items', ItemController::class);
+    });
+
+    Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])
         ->name('admin.dashboard');
 });
+
+
+Route::middleware(['auth', 'admin'])
+    ->prefix('admin')
+    ->group(function () {
+
+        Route::get('/dashboard', [DashboardController::class, 'index'])
+            ->name('admin.dashboard');
+
+        // CRUD ITEM ADMIN
+        Route::get('/items/{id}/edit', [LostFoundController::class, 'edit'])
+            ->name('admin.items.edit');
+
+        Route::put('/items/{id}', [LostFoundController::class, 'update'])
+            ->name('admin.items.update');
+
+        Route::delete('/items/{id}', [LostFoundController::class, 'destroy'])
+            ->name('admin.items.destroy');
+});
+
+
+
+
+Route::middleware(['auth', 'is_admin'])
+    ->prefix('admin')
+    ->group(function () {
+
+        Route::get('/dashboard', [DashboardController::class, 'index'])
+            ->name('admin.dashboard');
+
+        Route::get('/profile', function () {
+            return view('admin.profile_admin');
+        })->name('profile_admin');
+    });
+
+  Route::middleware(['auth', 'is_admin'])->prefix('admin')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+        ->name('admin.dashboard');
+
+    Route::resource('/items', AdminItemController::class)
+        ->names('admin.items');
+});
+
+Route::middleware(['auth', 'admin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+
+        Route::resource('items', AdminItemController::class);
+    });
+
+
+    
+
