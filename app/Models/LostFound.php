@@ -17,7 +17,8 @@ class LostFound extends Model
     'tanggal',
     'status',
     'user_id',
-    'foto', // ← WAJIB INI];
+    'foto',
+    'kategori',// ← WAJIB INI];
 
     ];
 
@@ -30,4 +31,8 @@ class LostFound extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+
+
+
 }

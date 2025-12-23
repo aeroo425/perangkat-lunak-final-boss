@@ -141,11 +141,13 @@ class LostFoundController extends Controller
     {
         $validated = $request->validate([
             'judul'     => 'required|string|max:255',
+            'kategori'  => 'required|in:primer,sekunder,tersier',
             'deskripsi' => 'required|string',
             'lokasi'    => 'required|string|max:255',
             'tanggal'   => 'required|date',
             'status'    => 'required|in:hilang,ditemukan',
             'foto'      => 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048',
+
         ]);
 
         $validated['user_id'] = Auth::id();
@@ -200,6 +202,7 @@ if ($request->hasFile('foto')) {
 
         $validated = $request->validate([
             'judul'     => 'required|string|max:255',
+            'kategori'  => 'required|in:primer,sekunder,tersier',
             'deskripsi' => 'required|string',
             'lokasi'    => 'required|string|max:255',
             'tanggal'   => 'required|date',

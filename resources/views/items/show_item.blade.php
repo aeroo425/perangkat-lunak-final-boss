@@ -103,7 +103,12 @@
         <p>{{ $item->judul }}</p>
 
         <p class="label">KATEGORI:</p>
-        <p>-</p>
+        <p class="mb-1">
+    
+    <span class="fw-bold text-capitalize">
+        {{ $item->kategori }}
+    </span>
+</p>
 
         <hr style="margin:20px 0;">
 

@@ -97,7 +97,7 @@
 
         <div class="d-flex align-items-center gap-3">
 
-           
+
 
             {{-- DROPDOWN PROFILE --}}
             <div class="dropdown">
@@ -141,7 +141,8 @@
         <thead>
             <tr>
                 <th>Foto</th>
-                <th>#</th>
+                <th>Kategori</th>
+                <th>No</th>
                 <th>Judul</th>
                 <th>Status</th>
                 <th>Lokasi</th>
@@ -161,6 +162,18 @@
                         <img src="{{ asset('default-item.png') }}" class="item-thumb">
                     @endif
                 </td>
+                <td>
+    <span class="badge
+        @if($item->kategori === 'primer') bg-danger
+        @elseif($item->kategori === 'sekunder') bg-warning text-dark
+        @else bg-secondary
+        @endif
+    ">
+        {{ strtoupper($item->kategori) }}
+    </span>
+</td>
+
+
 
                 <td>{{ $loop->iteration }}</td>
                 <td class="fw-semibold">{{ $item->judul }}</td>

@@ -145,7 +145,19 @@
                         <label for="judul" class="form-label fw-bold">Judul Barang <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="judul" name="judul"
                                placeholder="Contoh: Tas Ransel Hitam" required value="{{ old('judul') }}">
-                    </div>
+                    <div class="mb-3">
+    <label>Kategori Barang</label>
+<select name="kategori" class="form-select" required>
+    <option value="">-- Pilih Kategori --</option>
+    <option value="primer">Primer</option>
+    <option value="sekunder">Sekunder</option>
+    <option value="tersier">Tersier</option>
+</select>
+
+@error('kategori')
+    <div class="text-danger">{{ $message }}</div>
+@enderror
+
 
                     <div class="mb-3">
                         <label for="deskripsi" class="form-label fw-bold">Deskripsi <span class="text-danger">*</span></label>

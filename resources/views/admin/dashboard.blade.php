@@ -222,6 +222,7 @@
                     {{-- INFO --}}
                     <div>
                         <h5 class="fw-bold mb-1">{{ $item->judul }}</h5>
+                        
                         <p class="mb-1">
                             <i class="fa fa-user"></i>
                             {{ $item->user->name }}

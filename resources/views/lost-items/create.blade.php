@@ -151,6 +151,20 @@
                 </div>
 
                 <div class="mb-3">
+    <label>Kategori Barang</label>
+<select name="kategori" class="form-select" required>
+    <option value="">-- Pilih Kategori --</option>
+    <option value="primer">Primer</option>
+    <option value="sekunder">Sekunder</option>
+    <option value="tersier">Tersier</option>
+</select>
+
+@error('kategori')
+    <div class="text-danger">{{ $message }}</div>
+@enderror
+
+
+                <div class="mb-3">
                     <label for="deskripsi" class="form-label fw-bold">Deskripsi <span class="text-danger">*</span></label>
                     <textarea class="form-control" id="deskripsi" name="deskripsi" rows="4" placeholder="Jelaskan ciri-ciri barang yang hilang..." required>{{ old('deskripsi') }}</textarea>
                 </div>

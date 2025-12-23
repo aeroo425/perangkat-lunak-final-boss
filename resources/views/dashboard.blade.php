@@ -324,6 +324,14 @@ Swal.fire({
 
                         <div class="flex-grow-1">
                             <h5 class="fw-bold">{{ $item->judul }}</h5>
+                            <span class="badge bg-info">
+    {{ ucfirst($item->kategori) }}
+</span>
+    
+
+
+
+
                             <p class="mb-1"><i class="fa-solid fa-user"></i> Dilaporkan oleh: {{ $item->user->name }}</p>
                             <p class="mb-1"><i class="fa-solid fa-location-dot"></i> Lokasi: {{ $item->lokasi }}</p>
                             <p class="mb-1"><i class="fa-solid fa-calendar"></i> Tanggal: {{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}</p>
