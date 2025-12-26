@@ -24,8 +24,8 @@ class LostFoundController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('judul', 'like', "%{$search}%")
-                  ->orWhere('deskripsi', 'like', "%{$search}%")
-                  ->orWhere('lokasi', 'like', "%{$search}%");
+                    ->orWhere('deskripsi', 'like', "%{$search}%")
+                    ->orWhere('lokasi', 'like', "%{$search}%");
             });
         }
 
@@ -49,8 +49,8 @@ class LostFoundController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('judul', 'like', "%{$search}%")
-                  ->orWhere('deskripsi', 'like', "%{$search}%")
-                  ->orWhere('lokasi', 'like', "%{$search}%");
+                    ->orWhere('deskripsi', 'like', "%{$search}%")
+                    ->orWhere('lokasi', 'like', "%{$search}%");
             });
         }
 
@@ -72,9 +72,17 @@ class LostFoundController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('judul', 'like', "%{$search}%")
-                  ->orWhere('deskripsi', 'like', "%{$search}%")
-                  ->orWhere('lokasi', 'like', "%{$search}%");
+                    ->orWhere('deskripsi', 'like', "%{$search}%")
+                    ->orWhere('lokasi', 'like', "%{$search}%");
             });
+        }
+
+        if ($request->filled('kategori')) {
+            $query->where('kategori',  $request->kategori);
+        }
+
+        if ($request->filled('created_at')) {
+            $query->where('created_at',  $request->created_at);
         }
 
         $items = $query->paginate(10);
@@ -95,9 +103,17 @@ class LostFoundController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('judul', 'like', "%{$search}%")
-                  ->orWhere('deskripsi', 'like', "%{$search}%")
-                  ->orWhere('lokasi', 'like', "%{$search}%");
+                    ->orWhere('deskripsi', 'like', "%{$search}%")
+                    ->orWhere('lokasi', 'like', "%{$search}%");
             });
+        }
+
+        if ($request->filled('kategori')) {
+            $query->where('kategori',  $request->kategori);
+        }
+
+        if ($request->filled('created_at')) {
+            $query->where('created_at',  $request->created_at);
         }
 
         $items = $query->paginate(10);
@@ -152,12 +168,10 @@ class LostFoundController extends Controller
 
         $validated['user_id'] = Auth::id();
 
-if ($request->hasFile('foto')) {
-    $path = $request->file('foto')->store('lost_found', 'public');
-    $validated['foto'] = $path;
-
-
-    }
+        if ($request->hasFile('foto')) {
+            $path = $request->file('foto')->store('lost_found', 'public');
+            $validated['foto'] = $path;
+        }
 
         LostFound::create($validated);
 
@@ -172,7 +186,7 @@ if ($request->hasFile('foto')) {
     {
         $item = LostFound::findOrFail($id);
 
-    return view('items.show_item', compact('item'));
+        return view('items.show_item', compact('item'));
     }
 
     /* ============================================================
@@ -212,12 +226,12 @@ if ($request->hasFile('foto')) {
 
         if ($request->hasFile('foto')) {
 
-    if ($item->foto && \Storage::disk('public')->exists($item->foto)) {
-        \Storage::disk('public')->delete($item->foto);
+            if ($item->foto && \Storage::disk('public')->exists($item->foto)) {
+                \Storage::disk('public')->delete($item->foto);
             }
 
             $path = $request->file('foto')->store('lost_found', 'public');
-    $validated['foto'] = $path;
+            $validated['foto'] = $path;
         }
 
         $item->update($validated);
@@ -231,13 +245,13 @@ if ($request->hasFile('foto')) {
     ============================================================ */
     public function destroy($id)
     {
-         if (!auth()->user()->is_admin) {
-        abort(403);
-    }
+        if (!auth()->user()->is_admin) {
+            abort(403);
+        }
 
-    LostFound::findOrFail($id)->delete();
+        LostFound::findOrFail($id)->delete();
 
-    return back()->with('success', 'Item berhasil dihapus');
+        return back()->with('success', 'Item berhasil dihapus');
     }
 
     /* ============================================================
@@ -250,8 +264,8 @@ if ($request->hasFile('foto')) {
         $items = LostFound::with('user')
             ->where(function ($q) use ($search) {
                 $q->where('judul', 'like', "%{$search}%")
-                  ->orWhere('deskripsi', 'like', "%{$search}%")
-                  ->orWhere('lokasi', 'like', "%{$search}%");
+                    ->orWhere('deskripsi', 'like', "%{$search}%")
+                    ->orWhere('lokasi', 'like', "%{$search}%");
             })
             ->latest()
             ->paginate(10);
@@ -259,13 +273,9 @@ if ($request->hasFile('foto')) {
         return view('list-items.index', compact('items', 'search'));
     }
 
-     public function index()
+    public function index()
     {
         $items = LostFound::latest()->get();
         return view('items.show_item', compact('items'));
     }
-
-
-
-
 }
