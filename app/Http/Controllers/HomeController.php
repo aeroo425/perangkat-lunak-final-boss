@@ -25,8 +25,8 @@ class HomeController extends Controller
             $query->where('kategori', $request->kategori);
         }
 
-        if ($request->filled('created_at')) {
-            $query->whereDate('created_at', $request->created_at);
+        if ($request->filled('tanggal')) {
+            $query->whereDate('tanggal', $request->tanggal);
         }
 
         $items = $query->latest()->get();

@@ -183,7 +183,8 @@
                         class="menu-link {{ request()->routeIs('lost-items.*') ? 'active' : '' }}">Lost Item</a>
                     <a href="{{ route('found-items.index') }}"
                         class="menu-link {{ request()->routeIs('found-items.*') ? 'active' : '' }}">Found Item</a>
-                
+                    <a href="{{ route('my-reports.index') }}"
+                        class="menu-link {{ request()->routeIs('my-reports.*') ? 'active' : '' }}">My Report</a>
 
                     {{-- PROFILE --}}
                     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -331,8 +332,8 @@
                         </select>
                     </div>
                     <div>
-                        <input type="date" name="created_at" class="form-control"
-                            value="{{ request('created_at') }}" onchange="this.form.submit()">
+                        <input type="date" name="tanggal" class="form-control"
+                            value="{{ request('tanggal') }}" onchange="this.form.submit()">
                     </div>
                     <div class="align-self-end">
                         <a href="{{ route('dashboard') }}" class="btn btn-secondary rounded-pill px-4">
