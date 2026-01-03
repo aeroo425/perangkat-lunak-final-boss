@@ -6,7 +6,7 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/sass/app.scss', // Pastikan path benar
+                'resources/css/app.css',
                 'resources/js/app.js',
             ],
             refresh: true,
